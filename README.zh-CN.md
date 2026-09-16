@@ -28,6 +28,9 @@ Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planne
 | Implementer | 代码、测试、实施证据、返修 | 关闭审查问题 |
 | Reviewer | 独立审查、验证、完成决策 | 直接修复产品代码 |
 
+<img width="1672" height="941" alt="b6983acc7f20aa6e7e05b30de4db7f88" src="https://github.com/user-attachments/assets/868c75bd-016f-4ed0-812b-20d53c51bd5e" />
+
+
 ## 快速开始
 
 1. 将 `shared/.agents/skills/project-role-workflow/` 安装为当前工具的个人 Skill。

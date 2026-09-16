@@ -1,4 +1,4 @@
-# 多 Agent 项目状态共享模板
+# 多 Agent 项目状态共享框架
 
 [English](README.md)
 
@@ -12,6 +12,8 @@ Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planne
 ## 解决什么问题
 
 不同 Agent 的对话上下文通常不共享。本模板把仓库变成持久协作面：
+
+假如你有一个20块的GPT PLUS 订阅，你可以把设计，和审核的工作交给GPT6或者GPT5.6，苦力活交给Cursor 5.6 或者 deepseek，各agent之间的沟通完全不需要依赖上下文
 
 ```text
 需求 → 计划 → 实施 → 审查 → 返修 → 验证

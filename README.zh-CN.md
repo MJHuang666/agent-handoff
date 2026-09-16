@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-如果你订阅了 20 美元的 ChatGPT Plus 服务，就可以把规划、设计和审核工作交由 GPT-6 Astra 或 GPT-5.6 Sol 处理，同时将繁重的落地实现工作交给 Cursor 5.6 或 DeepSeek 或者其他。
+如果你订阅了 20 美元的 ChatGPT Plus 服务，就可以把规划、设计和审核工作交由 GPT-6 Astra 或 GPT-5.6 Sol 处理，同时将繁重的落地实现工作交给 Cursor Grok 4.6 或 DeepSeek 或者其他。
 
 最棒的一点是：智能体之间的通信完全不需要依赖对话上下文。
 

@@ -40,10 +40,12 @@ Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planne
    $project-role-workflow 初始化当前仓库
    $project-role-workflow initialize this repository
    ```
+<img width="814" height="628" alt="9a3c8948164a8b340d70ad3fc11335e4" src="https://github.com/user-attachments/assets/86761441-3621-49b5-aabb-ba9c50e9ca38" />
 
 3. 先选择中文或 English，再为三个角色指定工具。
 4. 让 Planner 创建第一个任务。
 5. 每次交接时打开下一个角色的工具，只说“继续”或 `continue`。
+<img width="840" height="362" alt="2c7493b4c6a7366e669c5f0bcb1274c5" src="https://github.com/user-attachments/assets/148b6c2c-5b17-4d09-b746-be12990c0e61" />
 
 所选语言会约束后续面向用户的交流和新增任务文档正文；文件名、YAML 键、ID 与状态枚举保持稳定。
 

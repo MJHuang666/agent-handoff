@@ -28,6 +28,9 @@ Each role writes fixed deliverables and append-only progress records. The next a
 | Implementer | Code, tests, execution evidence, rework | Close review issues |
 | Reviewer | Independent review, verification, completion decision | Directly fix product code |
 
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/be8dc516-a6e7-4c4e-9027-4321259445e7" />
+
+
 ## Quick start
 
 1. Install `shared/.agents/skills/project-role-workflow/` as a personal Skill for your tool.

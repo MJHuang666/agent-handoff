@@ -2,6 +2,9 @@
 
 [简体中文](README.zh-CN.md)
 
+If you subscribe to the $20 ChatGPT Plus plan, you can delegate planning, design, and review to GPT-6 Astra or GPT-5.6 Sol, while handing off the heavy implementation work to Cursor 5.6, DeepSeek, or other tools.
+
+The best part is that communication between agents doesn’t need to rely on conversation context at all.
 
 <img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/596acdcc-4126-460f-bb8a-5ed35359d4a4" />
 

@@ -2,6 +2,9 @@
 
 [简体中文](README.zh-CN.md)
 
+
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/596acdcc-4126-460f-bb8a-5ed35359d4a4" />
+
 Project Role Workflow is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory.
 
 It supports Codex and Cursor entry points today, while keeping roles independent from tools. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same shared protocol when configured with a thin project-level instruction.

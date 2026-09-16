@@ -1,7 +1,9 @@
-# 多 Agent 项目状态共享模板
+<img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" /># 多 Agent 项目状态共享模板
 
 [English](README.md)
-![Uploading ba14332458141704b359c20a8d40f1a0.png…]()
+
+
+
 
 Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态。
 

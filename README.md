@@ -40,10 +40,15 @@ Each role writes fixed deliverables and append-only progress records. The next a
    $project-role-workflow initialize this repository
    $project-role-workflow 初始化当前仓库
    ```
+<img width="814" height="628" alt="9a3c8948164a8b340d70ad3fc11335e4" src="https://github.com/user-attachments/assets/0d171199-0a2a-45ef-802d-3aadf5998133" />
+
 
 3. Select `English` or `中文` before assigning a tool to each role.
 4. Create the first task with the Planner.
 5. Open the next role's tool and say `continue` or `继续` at each handoff.
+
+<img width="840" height="362" alt="2c7493b4c6a7366e669c5f0bcb1274c5" src="https://github.com/user-attachments/assets/d285da83-36d3-43ce-9a30-0d2ef4a8211d" />
+
 
 The selected language controls later user-facing conversation and task prose. Stable file names, YAML keys, IDs, and status enums remain unchanged.
 

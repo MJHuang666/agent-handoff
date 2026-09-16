@@ -2,6 +2,9 @@
 
 [English](README.md)
 
+如果你订阅了 20 美元的 ChatGPT Plus 服务，就可以把规划、设计和审核工作交由 GPT-6 或 GPT-5.6 处理，同时将繁重的落地实现工作交给 Cursor 5.6 或 DeepSeek 或者其他。
+
+最棒的一点是：智能体之间的通信完全不需要依赖对话上下文。
 
 <img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" />
 
@@ -13,9 +16,6 @@ Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planne
 
 不同 Agent 的对话上下文通常不共享。本模板把仓库变成持久协作面：
 
-如果你订阅了 20 美元的 ChatGPT Plus 服务，就可以把规划、设计和审核工作交由 GPT-6 或 GPT-5.6 处理，同时将繁重的落地实现工作交给 Cursor 5.6 或 DeepSeek 或者其他。
-
-最棒的一点是：智能体之间的通信完全不需要依赖对话上下文。
 ```text
 需求 → 计划 → 实施 → 审查 → 返修 → 验证
        docs/agent/tasks/<TASK-ID>/

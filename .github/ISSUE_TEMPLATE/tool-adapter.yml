@@ -1,0 +1,25 @@
+name: Tool adapter request
+description: Propose or report an integration for another coding-agent tool.
+title: "adapter: "
+labels: [adapter]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Tool and version
+    validations:
+      required: true
+  - type: textarea
+    id: discovery
+    attributes:
+      label: Project instruction or Skill discovery mechanism
+      description: Explain how the tool discovers repository instructions.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Fresh-session validation
+      description: Describe what happened when a new session was asked to continue.
+    validations:
+      required: true

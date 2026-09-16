@@ -1,0 +1,1 @@
+Use the project-role-workflow Skill as the assigned Reviewer for the active task. Verify the exact current delivery against every mandatory acceptance criterion and open finding. Mark DONE only with version-bound evidence; otherwise record the correct return, planning or blocked state.

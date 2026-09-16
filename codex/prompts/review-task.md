@@ -1,0 +1,1 @@
+Use the project-role-workflow Skill as the assigned Reviewer for the active task. Independently inspect requirement, plan, execution, progress and the actual delivery version. Record stable findings in review.md. Do not modify product code or accept risk without an authorization reference.

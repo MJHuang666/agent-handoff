@@ -1,0 +1,13 @@
+# macOS and external-volume metadata
+.DS_Store
+._*
+
+# Local agent diagnostics and temporary verification output
+.learnings/
+
+# Generated release assets; publish them through GitHub Releases instead
+dist/
+
+# Local worktrees
+.worktrees/
+worktrees/

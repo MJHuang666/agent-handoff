@@ -1,0 +1,13 @@
+---
+description: Apply the repository's file-based role workflow to shared agent tasks
+globs:
+alwaysApply: true
+---
+
+When `docs/agent/PROJECT_STATUS.md` exists, requests to create, plan, implement, resume, review, repair, verify, switch, or close tasks must use the `project-role-workflow` Skill in `.agents/skills/` when available. If unavailable, read `docs/agent/protocol.md` and `docs/agent/workflow.md` directly.
+
+Recognize both `$project-role-workflow 初始化当前仓库` / `$project-role-workflow initialize this repository` and `$project-role-workflow 继续` / `$project-role-workflow continue`. During initialization ask for `zh-CN` or `en-US` before role-tool selection and use that language for communication and new documents. Before Implementer code changes, require and record `USE` or `DO_NOT_USE` for subagents.
+
+Before writing, read the project status, active task STATE, role bindings, participant Profile, shared role rules, relevant deliverables, latest valid checkpoint, and the Skill protocol. Resolve the Cursor participant identity from registration; if multiple Cursor identities exist, ask which participant_id to use instead of assuming the role currently needed.
+
+Only the active task's current participant may perform business writes, and only when no other writer_session is active. Stay read-only when waiting. Do not replace a running writer_session because it looks stale, do not fix code while assigned as Reviewer, and do not treat state files as locks or permission to merge, release, deploy, delete, reset, or overwrite work.

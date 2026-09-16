@@ -1,0 +1,1 @@
+Use the project-role-workflow Skill and continue the active task. Resolve my registered participant identity, read the project and task state, and act only if it is my turn. If it is not my turn or another writer session is active, report the exact wait state without modifying files.

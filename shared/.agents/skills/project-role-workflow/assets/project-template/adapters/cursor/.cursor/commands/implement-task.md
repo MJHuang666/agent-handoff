@@ -1,0 +1,1 @@
+Use the project-role-workflow Skill as the assigned Implementer. Verify the approved plan and worktree, implement the approved scope, record delivery evidence in execution.md, and hand off to Reviewer.

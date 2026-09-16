@@ -1,0 +1,28 @@
+name: Validate release source
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python for Markdown validation
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate source and generated release archive
+        run: bash .github/scripts/validate-release.sh
+
+      - name: Check whitespace errors
+        run: git diff --check "$(git hash-object -t tree /dev/null)" HEAD

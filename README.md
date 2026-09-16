@@ -1,0 +1,81 @@
+# Project Role Workflow
+
+[简体中文](README.zh-CN.md)
+
+Project Role Workflow is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory.
+
+It supports Codex and Cursor entry points today, while keeping roles independent from tools. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same shared protocol when configured with a thin project-level instruction.
+
+## Why it exists
+
+Agent conversations do not naturally share context. This template makes the repository the durable handoff surface:
+
+```text
+Requirement → Plan → Implementation → Review → Rework → Verification
+               docs/agent/tasks/<TASK-ID>/
+```
+
+Each role writes fixed deliverables and append-only progress records. The next agent reads the project summary, task state, and prior role output before acting.
+
+## Roles
+
+| Role | Owns | Does not do |
+|---|---|---|
+| Planner | Requirement, scope, plan, decisions, acceptance criteria | Change product code |
+| Implementer | Code, tests, execution evidence, rework | Close review issues |
+| Reviewer | Independent review, verification, completion decision | Directly fix product code |
+
+## Quick start
+
+1. Install `shared/.agents/skills/project-role-workflow/` as a personal Skill for your tool.
+2. Open a new repository and run either command:
+
+   ```text
+   $project-role-workflow initialize this repository
+   $project-role-workflow 初始化当前仓库
+   ```
+
+3. Select `English` or `中文` before assigning a tool to each role.
+4. Create the first task with the Planner.
+5. Open the next role's tool and say `continue` or `继续` at each handoff.
+
+The selected language controls later user-facing conversation and task prose. Stable file names, YAML keys, IDs, and status enums remain unchanged.
+
+Before product-code work, an Implementer must ask whether to use subagents. The explicit choice is recorded in the task state; no code work starts while the choice is unselected.
+
+## Repository layout
+
+```text
+shared/                         Canonical protocol, task templates, and Skill
+  .agents/skills/project-role-workflow/
+  docs/agent/
+codex/                          Codex adapter and reusable prompts
+cursor/                         Cursor rules and commands
+distribution/                   Release installation instructions
+```
+
+## Installation choices
+
+For a new repository, prefer the Skill's built-in initializer. It copies only missing files and preserves existing instructions and project state.
+
+For a manual installation, follow [distribution/INSTALL.md](distribution/INSTALL.md). The automatic initializer deliberately excludes `TASK-EXAMPLE-001`; manual source copying may include it as documentation only, never as an active task.
+
+Release ZIP archives and SHA-256 checksums are published as GitHub Release assets. They are not tracked in the source repository.
+
+## Safety boundaries
+
+- This is a file protocol, not a scheduler, file lock, permission system, or automatic agent handoff mechanism.
+- The default model is one active task and one writer session in one working directory.
+- Different worktrees and machines require explicit Git synchronization and version checks.
+- `DONE` means task acceptance only; it never authorizes merge, deployment, release, deletion, rollback, or takeover.
+- If a host blocks `.agents/` writes, the workflow falls back to the loaded global Skill plus `docs/agent/protocol.md`.
+
+## Validation and contribution
+
+Run the release-equivalent validation before contributing:
+
+```bash
+bash .github/scripts/validate-release.sh
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [CHANGELOG.md](CHANGELOG.md). The project is licensed under [Apache-2.0](LICENSE).

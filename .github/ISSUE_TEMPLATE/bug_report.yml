@@ -1,0 +1,34 @@
+name: Bug report
+description: Report incorrect workflow, initialization, packaging, or adapter behavior.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include credentials, private repository content, or personal data."
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release version or commit SHA.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include the command, selected language, role, and tool.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true

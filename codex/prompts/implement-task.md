@@ -1,0 +1,1 @@
+Use the project-role-workflow Skill as the assigned Implementer for the active task. Verify the approved plan, worktree and delivery baseline before editing. Implement only the approved scope, record tests and version evidence in execution.md, then hand off according to the protocol.

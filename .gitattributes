@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.md text eol=lf
+*.mdc text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+
+*.zip binary
+*.sha256 text eol=lf

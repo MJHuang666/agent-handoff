@@ -46,6 +46,32 @@ cmp -s \
   shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/SKILL.md \
   || fail "bootstrap Skill differs from source"
 
+for tool_id in deepseek-harness opencode; do
+  for tool_file in \
+    shared/.agents/skills/project-role-workflow/references/initialization.md \
+    shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/references/initialization.md \
+    shared/docs/agent/profiles/_templates/participant.md \
+    shared/.agents/skills/project-role-workflow/assets/project-template/shared/docs/agent/profiles/_templates/participant.md \
+    shared/.agents/skills/project-role-workflow/assets/project-template/locales/zh-CN/docs/agent/profiles/_templates/participant.md \
+    shared/.agents/skills/project-role-workflow/assets/project-template/locales/en-US/docs/agent/profiles/_templates/participant.md; do
+    grep -Fq "$tool_id" "$tool_file" || fail "missing $tool_id in $tool_file"
+  done
+done
+
+for integration_file in \
+  shared/docs/agent/integrations.md \
+  shared/.agents/skills/project-role-workflow/assets/project-template/shared/docs/agent/integrations.md \
+  shared/.agents/skills/project-role-workflow/assets/project-template/locales/zh-CN/docs/agent/integrations.md \
+  shared/.agents/skills/project-role-workflow/assets/project-template/locales/en-US/docs/agent/integrations.md; do
+  grep -Fq 'DeepSeek Harness' "$integration_file" || fail "missing DeepSeek Harness in $integration_file"
+  grep -Fq 'OpenCode' "$integration_file" || fail "missing OpenCode in $integration_file"
+done
+
+test ! -d shared/.agents/skills/project-role-workflow/assets/project-template/adapters/dsh \
+  || fail "DeepSeek Harness must reuse the shared entry, not a duplicate adapter"
+test ! -d shared/.agents/skills/project-role-workflow/assets/project-template/adapters/opencode \
+  || fail "OpenCode must reuse the shared entry, not a duplicate adapter"
+
 python3 - <<'PY'
 from pathlib import Path
 import re

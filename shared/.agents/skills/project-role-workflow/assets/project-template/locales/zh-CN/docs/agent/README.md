@@ -31,7 +31,7 @@
 
 ```text
 角色：Planner / Implementer / Reviewer
-工具：Codex / Cursor / Claude Code / WorkBuddy / Zcode / Trae / 其他
+工具：Codex / Cursor / Claude Code / WorkBuddy / ZCode / Trae / DeepSeek Harness / OpenCode / 其他
 ```
 
 为身份选择稳定的 participant_id，例如 `planner-main`、`implementation-cursor`、`review-codex`。复制 `profiles/_templates/participant.md` 到 `profiles/<tool>/<participant_id>.md`，填写真实字段，并在 `role-bindings.md` 登记。

@@ -1,6 +1,6 @@
 # Project Role Workflow Skill Pack
 
-版本：1.3.0
+版本：1.4.0
 
 这个安装包把多智能体协作所需的 Skill、共享状态模板、状态安全脚本和工具入口放在一起。安装后，Planner、Implementer、Reviewer 通过目标仓库中的 `docs/agent/` 交接；对话框只负责触发命令，不再承担唯一上下文。正式 ZIP 与 SHA-256 校验文件应作为 GitHub Release 附件发布，而不是提交到源码仓库。
 
@@ -33,6 +33,8 @@
 |---|---|
 | Codex | `~/.codex/skills/project-role-workflow/` |
 | Claude Code | `~/.claude/skills/project-role-workflow/` |
+| DeepSeek Harness | 个人 Skill 目录，或直接使用项目 `.agents/skills/project-role-workflow/` |
+| OpenCode | 个人 Skill 目录，或直接使用项目 `.agents/skills/project-role-workflow/` |
 | 支持 Agent Skills 的其他工具 | 该工具声明的个人 Skills 目录 |
 
 完成后进入新仓库调用：
@@ -71,6 +73,14 @@ Skill 会从自身 `assets/project-template/` 安装缺失文件。已有文件�
 ### ZCode
 
 可用 ZCode 的 Skill Import 导入 `shared/.agents/skills/project-role-workflow/`，范围选择 Current Project。若支持 Copy/Symlink，优先 Symlink 以避免双份内容漂移；不支持时选择 Copy，并记录同步责任。项目根 `AGENTS.md` 可使用 Codex 入口的内容，但必须与已有规则合并。
+
+### DeepSeek Harness
+
+目标项目保留根 `AGENTS.md` 和 `.agents/skills/project-role-workflow/`。DeepSeek Harness 需启用 `dsh-agent-instructions`，并启用能扫描项目 `.agents/skills/` 的文件系统 Skill 加载器。不要创建 `.dsh/skills` 副本；未用真实新会话验证前，集成状态保持“待验证”。
+
+### OpenCode
+
+OpenCode 可直接读取根 `AGENTS.md` 和项目 `.agents/skills/`。如果 `project-role-workflow` 没有出现，检查 Skill 权限，并检查 `.opencode/skills/` 是否存在同名高优先级副本。不要创建 `.opencode/skills` 副本，以 `.agents/skills/project-role-workflow/` 为唯一事实源。
 
 ### WorkBuddy、Trae 和其他智能体
 

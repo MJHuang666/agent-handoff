@@ -3,7 +3,7 @@
 ```yaml
 participant_id: "<unique-id>"
 display_name: "<human-readable-name>"
-tool: "<codex|cursor|claude-code|workbuddy|zcode|trae|other-id>"
+tool: "<codex|cursor|claude-code|workbuddy|zcode|trae|deepseek-harness|opencode|other-id>"
 role: "<planner|implementer|reviewer>"
 role_file: "../../roles/<role>.md"
 status: "<active|standby|retired>"

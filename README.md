@@ -7,7 +7,7 @@
 
 Project Role Workflow is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory. An optional standard-library Python helper adds a short-lived state lock, expected-revision checks, and atomic replacement.
 
-It supports Codex and Cursor entry points today, while keeping roles independent from tools. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same shared protocol when configured with a thin project-level instruction.
+It supplies dedicated Codex and Cursor adapters and first-class shared entry support for DeepSeek Harness and OpenCode. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same protocol through a thin project-level instruction. Roles remain independent from tools.
 
 ## Why it exists
 
@@ -51,6 +51,8 @@ Each role writes fixed deliverables and append-only progress records. The next a
 
 
 The selected language controls later user-facing conversation and task prose. Stable file names, YAML keys, IDs, and status enums remain unchanged.
+
+The built-in tool choices are Codex, Cursor, Claude Code, WorkBuddy, ZCode, Trae, DeepSeek Harness, OpenCode, and Other. DeepSeek Harness and OpenCode reuse root `AGENTS.md` plus `.agents/skills/project-role-workflow/`; the initializer does not create duplicate `.dsh` or `.opencode` Skill trees.
 
 Before product-code work, an Implementer must ask whether to use subagents. The explicit choice is recorded in the task state; no code work starts while the choice is unselected.
 

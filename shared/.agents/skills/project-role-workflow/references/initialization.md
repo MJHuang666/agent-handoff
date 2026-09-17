@@ -53,7 +53,19 @@ After the language is recorded, ask the user for the tool that will serve each r
 2. Implementer, including rework
 3. Reviewer
 
-Supported labels include Codex, Cursor, Claude Code, WorkBuddy, ZCode, Trae, and Other. One tool may serve multiple roles, but every identity needs a unique `participant_id`.
+Present these numbered tool choices for each role:
+
+1. Codex (`codex`)
+2. Cursor (`cursor`)
+3. Claude Code (`claude-code`)
+4. WorkBuddy (`workbuddy`)
+5. ZCode (`zcode`)
+6. Trae (`trae`)
+7. DeepSeek Harness (`deepseek-harness`)
+8. OpenCode (`opencode`)
+9. Other (ask for a stable custom tool ID)
+
+One tool may serve multiple roles, but every identity needs a unique `participant_id`. Store the stable tool ID, not the display label.
 
 For each identity, create a Profile from `docs/agent/profiles/_templates/participant.md` and register the immutable `(participant_id, tool, role)` tuple in `docs/agent/role-bindings.md`. Do not infer these choices from the current tool or create a real task during initialization.
 

@@ -1,10 +1,10 @@
 # 多 Agent 项目状态共享模板设计规格
 
-版本：1.3.0，2026-09-17。本文记录已实现的设计基线：身份、活动任务、交接、检查点、恢复、语言选择、子代理门禁及 Agent 动态更换均已落入模板。结构、初始化和关键行为已做本地验证；没有经过全新工具会话验证的第三方适配仍必须标为未验证。
+版本：1.4.0，2026-09-17。本文记录已实现的设计基线：身份、活动任务、交接、检查点、恢复、语言选择、子代理门禁、Agent 动态更换，以及 DeepSeek Harness 与 OpenCode 共享入口均已落入模板。没有经过全新工具会话验证的第三方适配仍必须标为待验证。
 
 ## 1. 目标
 
-构建一个可复制到任意软件仓库的纯 Markdown 模板，使 Codex、Cursor、Claude Code、WorkBuddy、Zcode、Trae 及其他编码 Agent 能够围绕同一项目按角色接力工作。
+构建一个可复制到任意软件仓库的 Markdown-first 模板，使 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 及其他编码 Agent 能够围绕同一项目按角色接力工作。
 
 系统不依赖某个聊天窗口保存上下文。项目事实、角色分工、任务状态、阶段动作、结论、验证证据和下一步交接全部写入仓库文件，由 Git 作为共享总线。
 
@@ -51,11 +51,13 @@ Reviewer 的正式交付物是 `review.md`。Reviewer 可以请求修改，也�
 2. Cursor
 3. Claude Code
 4. WorkBuddy
-5. Zcode
+5. ZCode
 6. Trae
-7. 其他
+7. DeepSeek Harness
+8. OpenCode
+9. 其他
 
-文件路径使用规范化的小写标识：`codex`、`cursor`、`claude-code`、`workbuddy`、`zcode`、`trae`。选择“其他”时，由用户提供显示名称，系统将其转换成稳定的文件夹标识；不得覆盖已有 Agent 目录。
+文件路径使用规范化的小写标识：`codex`、`cursor`、`claude-code`、`workbuddy`、`zcode`、`trae`、`deepseek-harness`、`opencode`。选择“其他”时，由用户提供稳定的自定义 tool ID；不得覆盖已有 Agent 目录。
 
 同一个 Agent 可以在不同任务中承担不同角色，也可以拥有多个角色 Profile。项目默认绑定保存在 `role-bindings.md`，单个任务可以在 `STATE.md` 中覆盖默认绑定。
 
@@ -152,16 +154,16 @@ participant_id 在项目内唯一，其 tool、role 创建后不可变，也不�
 |---|---|---|
 | `shared/docs/agent/` | `docs/agent/` | 项目状态、角色、任务和历史 |
 | `shared/.agents/` | `.agents/` | 两端共用的项目级 Skill |
-| `codex/AGENTS.md` | `AGENTS.md` | Codex 自动读取的项目规则 |
+| `codex/AGENTS.md` | `AGENTS.md` | Codex、DeepSeek Harness 和 OpenCode 共用的根项目规则 |
 | `cursor/.cursor/` | `.cursor/` | Cursor 自动规则和快捷命令 |
 
 目标项目原有 `AGENTS.md`、`.agents/`、`.cursor/` 或 `docs/agent/` 时，说明书要求逐项合并，不允许整目录覆盖。
 
-`codex/AGENTS.md` 中只写平台无冲突的项目协作规则，因为部分其他工具也可能读取根目录 `AGENTS.md`。Cursor 专属行为放在 `.cursor/rules/agent-collaboration.mdc`。
+`codex/AGENTS.md` 中只写平台无冲突的项目协作规则，安装到根目录后同时作为 Codex、DeepSeek Harness 和 OpenCode 入口。Cursor 专属行为放在 `.cursor/rules/agent-collaboration.mdc`。
 
 ### 6.1 工具适配范围
 
-`integrations.md` 区分协议可读与入口自动加载。第一版提供 Codex、Cursor 的入口模板；安装后必须从新会话检查能否读到项目总览、Skill 和角色规则，检查通过后才能标为“已验证”。Claude Code、WorkBuddy、Zcode、Trae 和其他工具可以阅读相同协议，但其自动入口初始标为“待配置、未验证”。按对应工具支持的项目指令方式配置并走查后，再记录入口路径、工具版本和验证日期。创建 Profile 不等于已配置自动加载。
+`integrations.md` 区分协议可读与入口自动加载。Codex 和 Cursor 有专用适配器；DeepSeek Harness 和 OpenCode 一等支持根 `AGENTS.md` 及 `.agents/skills/` 共享入口，不建立 `.dsh` 或 `.opencode` 副本。安装后必须从新会话检查能否读到项目总览、Skill 和角色规则，检查通过后才能标为“已验证”。Claude Code、WorkBuddy、ZCode、Trae 和其他工具可以阅读相同协议，但其自动入口初始标为“待配置、未验证”。创建 Profile 不等于已配置自动加载。
 
 ### 6.2 工作目录和 Git 交接
 
@@ -195,7 +197,7 @@ Codex 通过根目录 `AGENTS.md` 自动获得最小、稳定、始终有效的�
 
 ### 7.2 共享 Skill
 
-`.agents/skills/project-role-workflow/SKILL.md` 承载完整操作流程。它同时供支持 Agent Skills 标准的 Codex 和 Cursor 使用，并为其他 Agent 提供可直接阅读的协议。
+`.agents/skills/project-role-workflow/SKILL.md` 承载完整操作流程。它供 Codex、Cursor、DeepSeek Harness 和 OpenCode 共用，并为其他 Agent 提供可直接阅读的协议。
 
 Skill 应在以下意图下触发：创建任务、规划任务、实施计划、继续当前任务、处理审查意见、审查变更、最终验证和关闭任务。
 
@@ -245,9 +247,11 @@ Agent 选择提示固定为：
 2. Cursor
 3. Claude Code
 4. WorkBuddy
-5. Zcode
+5. ZCode
 6. Trae
-7. 其他
+7. DeepSeek Harness
+8. OpenCode
+9. 其他
 ```
 
 已有 Profile 不得被初始化流程覆盖。用户授权调整时可以修订有效约束并留下变更记录，废弃条目标明已被替代，避免无限追加矛盾规则。角色注册属于明确请求的管理操作，不允许等待中的会话自行触发注册来抢占任务。
@@ -535,7 +539,7 @@ READY、REVIEWING 等阶段的接棒仅允许指向已经登记的参与者。�
 7. 等待走查：非当前 Agent 只报告等待状态，不产生修改。
 8. 新会话恢复走查：只依赖仓库文件即可说出当前任务、当前角色、上一结论和下一动作。
 9. 冲突走查：`revision` 变化或总览不一致时停止基于旧状态写入。
-10. 安装走查：将模板复制到一个空示例仓库后，Codex 和 Cursor 的入口文件位于各自可发现的位置。
+10. 安装走查：将模板复制到空示例仓库后，Codex 和 Cursor 专用入口可发现，DeepSeek Harness 和 OpenCode 可复用根 `AGENTS.md` 及 `.agents/skills/`。
 11. 同工具多身份：两个 Codex Profile 并存时询问身份，不按当前阶段自动认领；同身份另一会话 running 时不自动接管。
 12. 版本走查：切错 worktree、缺少交付版本、代码在审查后变化时，不复用旧的审查通过结论。
 13. 中断走查：分别在交付物写入后、历史写入后、STATE 写入后模拟停止，核对接棒是否生效及有权修复者。
@@ -553,14 +557,14 @@ READY、REVIEWING 等阶段的接棒仅允许指向已经登记的参与者。�
 
 模板完成时必须满足：
 
-- 只包含 Markdown 或 Markdown 衍生格式 `.mdc`，不包含执行脚本；
+- 协议与状态保持 Markdown-first，只使用可选的 Python 3 标准库脚本提供锁、revision CAS 和原子写入；
 - 三个角色不绑定固定 Agent；
 - 已登记身份唯一时自动恢复，有歧义时仅选择身份即可恢复角色和项目上下文；
 - 每个任务只有一个实时状态源；
 - 每个阶段都有不可覆盖的动作与结论记录；
 - 非当前角色会明确等待而不是越权行动；
 - 新对话无需复述历史即可继续；
-- Codex 和 Cursor 使用同一套共享 Skill 和状态协议；
+- Codex、Cursor、DeepSeek Harness 和 OpenCode 使用同一套共享 Skill 和状态协议；
 - 说明书足以让没有参与设计的人完成安装和首个任务；
 - 完整示例覆盖规划、实施、审查、返修、验证和关闭。
 - 代码审查和测试证据绑定可核对的交付版本；

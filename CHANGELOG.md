@@ -2,6 +2,17 @@
 
 All notable changes to Project Role Workflow are documented here.
 
+## [1.4.0] - 2026-09-17
+
+### Added
+
+- First-class DeepSeek Harness (`deepseek-harness`) and OpenCode (`opencode`) tool identities in initialization, Profiles, documentation, and release validation.
+- Shared-entry installation and troubleshooting guidance for both tools without duplicate Skill trees.
+
+### Changed
+
+- The initializer now presents nine stable tool choices, with `Other` reserved for an explicit custom ID.
+
 ## [1.3.0] - 2026-09-17
 
 ### Added

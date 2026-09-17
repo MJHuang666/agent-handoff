@@ -7,7 +7,7 @@
 
 Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
 
-它目前提供 Codex 与 Cursor 的入口文件；Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
+它提供 Codex 与 Cursor 专用入口，并正式支持 DeepSeek Harness 和 OpenCode 复用统一入口。Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
 
 ## 解决什么问题
 
@@ -48,6 +48,8 @@ Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Pla
 <img width="840" height="362" alt="2c7493b4c6a7366e669c5f0bcb1274c5" src="https://github.com/user-attachments/assets/148b6c2c-5b17-4d09-b746-be12990c0e61" />
 
 所选语言会约束后续面向用户的交流和新增任务文档正文；文件名、YAML 键、ID 与状态枚举保持稳定。
+
+内置工具选项为 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 和其他。DeepSeek Harness 与 OpenCode 共用根 `AGENTS.md` 和 `.agents/skills/project-role-workflow/`；初始化器不创建重复的 `.dsh` 或 `.opencode` Skill 目录。
 
 Implementer 修改产品代码前必须询问是否使用子代理，并把明确选择写入任务状态；未选择时不得开始代码实施。
 

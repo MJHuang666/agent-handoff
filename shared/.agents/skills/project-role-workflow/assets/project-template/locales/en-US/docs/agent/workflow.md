@@ -26,3 +26,11 @@ Before changing product code, read `STATE.md.subagent_policy`. If it is `UNSELEC
 ## Handoff
 
 Finish the role deliverable, append progress, update STATE (the handoff commit point), clear the writer session, and tell the user which tool should receive `continue`. Files do not wake another tool automatically.
+
+## Agent Replacement
+
+Accept `replace agent`, `switch agent`, and the documented Chinese aliases. Either the old or new Agent may start this separate management operation.
+
+Choose the role and `current-task`, `project-default`, or `both` scope. Create or reuse a same-role participant, read the latest revision, and prefer `.agents/skills/project-role-workflow/scripts/workflow_state.py` for locking, revision validation, and atomic replacement. A current participant change increments stage_round and clears writer/checkpoint ownership; a non-current assignment changes revision only. Implementer replacement resets the subagent decision. Complete the management operation before invoking `continue` separately in the new Agent.
+
+Never overwrite a running writer. Confirm it stopped and obtain explicit authorization. Never remove a lock based on age; use the Skill's authorized recovery command. Without Python, report degraded manual single-writer mode.

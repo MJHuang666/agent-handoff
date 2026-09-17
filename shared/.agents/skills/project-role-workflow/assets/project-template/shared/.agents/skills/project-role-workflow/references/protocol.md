@@ -8,6 +8,8 @@ The project language is read from `PROJECT_STATUS.md`. Use it for all user-facin
 
 Identity is `(participant_id, tool, role)`. `participant_id` is unique; tool and role are immutable. If the current tool matches more than one active identity, present the matching participant IDs and roles and ask the user to select one. The current STATE does not resolve that ambiguity because doing so would let a session claim whichever role is needed.
 
+Identity status is `active`, `standby`, or `retired`. Active and standby identities may be selected for an authorized replacement; selecting a standby identity reactivates it. Retired identities require an explicit reactivation decision. Never delete or repurpose an identity referenced by history.
+
 If no identity exists, registration is a management operation: ask for the role and tool, choose a unique participant_id, create the Profile from the project template, and register it. Do not register a new identity merely to bypass a wait state.
 
 ## Eligibility to Write
@@ -24,6 +26,8 @@ Business writes require all of these:
 An Implementer must also have an explicit `STATE.md` `subagent_policy` of `USE` or `DO_NOT_USE` before changing product code. `UNSELECTED` is a hard wait state. Record the user's choice in `subagent_decision_ref` and use subagents only when the policy is `USE` and the tool supports them.
 
 Before starting from idle, record a traceable writer_session, set execution to running, and increment revision. A session ID tracks ownership but does not prevent races; keep one human-coordinated writer.
+
+When the bundled helper is available, use it for participant replacement and revision-sensitive coordination writes. Its short-lived local lock, expected-revision check, and atomic replacement reduce accidental races; they do not lock product files or coordinate different machines/checkouts.
 
 ## Wait and Takeover
 
@@ -71,5 +75,9 @@ DONE means task acceptance only. It does not authorize merge, release, deploymen
 ## Repair and Management
 
 Registration, participant replacement, active-task switching, takeover, and state repair are management operations. Perform them only when explicitly requested or necessary to carry out an already explicit request, record the reason and evidence, and do not mix them with product edits.
+
+For participant replacement, choose `current-task`, `project-default`, or `both`. Keep the role fixed and create or reuse a same-role identity. A current responsible participant change increments revision and stage_round, clears writer/checkpoint ownership, and appends a MANAGEMENT record; a non-current task assignment change increments revision only. Implementer replacement resets the subagent decision. Repeated A → B → A changes reuse the immutable identities and create distinct management records.
+
+Do not auto-release a state-helper lock. Confirm the recorded process/session stopped and obtain explicit user authorization. If the helper reports a revision mismatch, discard the stale proposal, re-read all current state, and start a new management transaction.
 
 Waiting participants only report inconsistencies. A prior participant that already handed off may repair missing history only after repair authorization; old role ownership is not continuing write authority.

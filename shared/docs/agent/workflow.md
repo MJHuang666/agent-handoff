@@ -11,6 +11,19 @@
 
 文件不会唤醒其他工具。交接后，用户在下一工具或窗口输入“继续”。
 
+## Agent Replacement
+
+接受“更换 Agent”“替换 Agent”“replace agent”和“switch agent”。旧 Agent 或新 Agent 都可发起，但这是独立管理操作，不与产品修改混在同一轮。
+
+1. 选择角色和范围：仅当前任务、仅未来默认值、或两者。
+2. 创建或复用同角色 participant_id；身份的 tool/role 不可改写。
+3. 读取最新 revision，并优先使用 `.agents/skills/project-role-workflow/scripts/workflow_state.py` 执行带锁和 revision 校验的更换。
+4. 当前责任参与者变化时增加 stage_round，清空 writer_session 与旧检查点指针；非当前角色只更新 assignment 和 revision。
+5. Implementer 更换后把 subagent_policy 重置为 UNSELECTED。
+6. 更换完成后由新参与者另行执行“继续”。A → B → A 每次都产生独立 MANAGEMENT 记录。
+
+运行中的 writer_session 不得直接覆盖。先只读确认旧会话已经停止，再取得明确授权。锁也不能按时间自动删除；残留锁按 Skill 的授权恢复命令处理。Python 不可用时允许降级到人工单写入，但必须明确说明缺少文件锁、revision CAS 和原子写入保护。
+
 ## Authority Split
 
 - `PROJECT_STATUS.md` 的 `active_task` 决定唯一允许业务写入的任务。

@@ -6,7 +6,7 @@ display_name: "<human-readable-name>"
 tool: "<codex|cursor|claude-code|workbuddy|zcode|trae|other-id>"
 role: "<planner|implementer|reviewer>"
 role_file: "../../roles/<role>.md"
-status: active
+status: "<active|standby|retired>"
 created_at: "<ISO-8601>"
 ```
 
@@ -17,3 +17,4 @@ created_at: "<ISO-8601>"
 ## Change History
 
 - 创建身份时记录日期和来源；身份字段不得改作另一身份。
+- `standby` 可在授权更换时重新激活；`retired` 必须经过明确的重新启用决定。

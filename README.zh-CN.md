@@ -5,7 +5,7 @@
 
 <img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" />
 
-Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态。
+Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
 
 它目前提供 Codex 与 Cursor 的入口文件；Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
 
@@ -51,6 +51,19 @@ Project Role Workflow 是一套纯 Markdown 的多智能体协作协议。Planne
 
 Implementer 修改产品代码前必须询问是否使用子代理，并把明确选择写入任务状态；未选择时不得开始代码实施。
 
+## 更换 Agent
+
+旧 Agent 或新 Agent 都可以发起：
+
+```text
+$project-role-workflow 更换 Agent
+$project-role-workflow 替换 Agent
+$project-role-workflow replace agent
+$project-role-workflow switch agent
+```
+
+每次选择 Planner、Implementer 或 Reviewer，以及“仅当前任务”“仅未来任务”或“两者”。角色不变，只更换同角色 participant；A → B → A 可反复切换并保留每次管理记录。运行中的 writer 不会因为超时自动被抢占，旧会话停止和残留锁释放都需要明确授权。更换完成后，在新 Agent 中另行说“继续”。
+
 ## 仓库结构
 
 ```text
@@ -72,7 +85,7 @@ ZIP 安装包和 SHA-256 校验文件通过 GitHub Release 发布，不提交到
 
 ## 边界
 
-- 这是文件协议，不是调度器、文件锁、权限系统或自动唤醒机制。
+- 这是文件协议，不是调度器、权限系统或自动唤醒机制；辅助锁只保护同一 checkout 中的协调状态，不锁产品代码，也不跨机器。
 - 默认只允许同一工作目录中的一个活动任务和一个写入会话串行推进。
 - 不同 worktree 或机器需要显式同步 Git 状态并核对版本。
 - `DONE` 只表示任务验收完成，不授权合并、部署、发布、删除、回滚或接管。

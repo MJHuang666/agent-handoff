@@ -36,7 +36,7 @@
 
 为身份选择稳定的 participant_id，例如 `planner-main`、`implementation-cursor`、`review-codex`。复制 `profiles/_templates/participant.md` 到 `profiles/<tool>/<participant_id>.md`，填写真实字段，并在 `role-bindings.md` 登记。
 
-participant_id、tool、role 创建后不可更改或复用。更换工具或角色时创建新身份并停用旧身份。若一个工具有多个身份，新会话只需要选择 participant_id，不需要重述任务背景。
+participant_id、tool、role 创建后不可更改或改作另一身份。身份状态分为 active、standby、retired；更换 Agent 时创建或复用同角色身份，之后可以 A → B → A 多次切换。若一个工具有多个身份，新会话只需要选择 participant_id，不需要重述任务背景。
 
 ## Create the First Task
 
@@ -63,6 +63,14 @@ participant_id、tool、role 创建后不可更改或复用。更换工具或角
 轮到 Implementer 时，如果任务 `subagent_policy` 还是 `UNSELECTED`，必须先询问本次实施“使用子代理 / 不使用子代理”，记录选择后才允许修改产品代码。
 
 如果旧 writer_session 仍为 running，“旧窗口可能卡死”或长时间沉默都不足以自动接管。先通过只读信息确认原会话已经停止，再取得明确接管授权并记录管理事件。
+
+## 更换 Agent
+
+旧 Agent 或新 Agent 都可以说 `$project-role-workflow 更换 Agent`、`替换 Agent`、`replace agent` 或 `switch agent`。工作流会依次选择角色、影响范围（当前任务/未来默认/两者）及同角色的新 participant，并在确认后调用标准库 Python 辅助脚本完成短时文件锁、revision 校验和原子写入。
+
+更换只迁移角色责任，不修改角色本身。旧身份和历史保留；不再被默认值或非终态任务引用时转为 standby，之后可再次切回。更换 Implementer 会重新询问是否使用子代理。更换完成后，在新 Agent 单独说“继续”，管理操作不会顺带修改产品代码。
+
+Python 不可用时仍可按 Markdown 协议人工串行操作，但必须明确标记为降级模式；此时没有技术性的锁与 CAS 保护。
 
 ## Work and Handoff
 

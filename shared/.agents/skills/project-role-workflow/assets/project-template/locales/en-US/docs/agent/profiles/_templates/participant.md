@@ -6,7 +6,7 @@ display_name: "<human-readable-name>"
 tool: "<codex|cursor|claude-code|workbuddy|zcode|trae|other-id>"
 role: "<planner|implementer|reviewer>"
 role_file: "../../roles/<role>.md"
-status: active
+status: "<active|standby|retired>"
 created_at: "<ISO-8601>"
 ```
 
@@ -17,3 +17,4 @@ created_at: "<ISO-8601>"
 ## Change History
 
 - Record creation date and source. Identity fields must not be repurposed.
+- A standby identity may be reactivated by an authorized replacement; a retired identity requires an explicit reactivation decision.

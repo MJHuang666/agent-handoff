@@ -4,6 +4,7 @@
 
 - 任务编号：`TASK-YYYYMMDD-NNN`。
 - participant_id：小写字母、数字和连字符，例如 `planner-main`。
+- Profile status：`active` 可用、`standby` 可在更换时复用、`retired` 需明确重新启用。
 - 阶段记录：三位递增编号、动作、工具，例如 `003-review-codex.md`。
 - 检查点记录：同一编号规则，动作使用 `checkpoint`。
 

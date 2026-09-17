@@ -24,3 +24,9 @@ This directory is the shared project context for every Agent. Read `PROJECT_STAT
 In the assigned tool, say `continue`. The Agent resolves its participant, checks the active task and turn, reads the prior handoff, works only when assigned, and records evidence before handoff.
 
 If it is not the Agent's turn, it stays read-only and reports the waiting role and participant.
+
+## Replace an Agent
+
+Either old or new Agent may invoke `replace agent`, `switch agent`, or the documented Chinese aliases. Choose a role and current-task/future-default/both scope, then create or reuse a same-role participant. The Python standard-library helper adds a short-lived local lock, revision validation, and atomic state replacement. Repeated A → B → A switching is supported and preserves each management record. Run `continue` separately after replacement.
+
+Without Python the Markdown workflow remains usable in degraded manual single-writer mode. It has no technical lock or compare-and-swap protection.

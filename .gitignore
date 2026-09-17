@@ -5,6 +5,10 @@
 # Local agent diagnostics and temporary verification output
 .learnings/
 
+# Python test and helper caches
+__pycache__/
+*.py[cod]
+
 # Generated release assets; publish them through GitHub Releases instead
 dist/
 

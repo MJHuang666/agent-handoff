@@ -2,7 +2,7 @@
 
 Use this procedure when the user asks to initialize Project Role Workflow, using either `初始化当前仓库` or `initialize this repository`, or explicitly invokes the Skill in a repository without `docs/agent/PROJECT_STATUS.md`.
 
-The template source is `assets/project-template/`, resolved relative to this Skill directory. No Python runtime is required.
+The template source is `assets/project-template/`, resolved relative to this Skill directory. Markdown remains usable without Python, but Python 3 enables the bundled lock, revision-CAS, and atomic-write safety helper. Report the degraded manual single-writer mode when Python is unavailable.
 
 ## Preflight
 
@@ -22,14 +22,17 @@ Write the choice to `docs/agent/PROJECT_STATUS.md` as `language: zh-CN` or `lang
 
 ## Install the Baseline
 
-Copy every missing path from `assets/project-template/shared/` into the repository root:
+Copy the shared documentation from `assets/project-template/shared/docs/` into repository root `docs/`. Do not copy `tasks/TASK-EXAMPLE-001`; examples are distribution documentation, not initialized project state.
+
+Then try to copy the project runtime Skill:
 
 ```text
 .agents/skills/project-role-workflow/
-docs/agent/
 ```
 
-If `language: en-US`, overlay the corresponding files from `assets/project-template/locales/en-US/` after the baseline copy. If `language: zh-CN`, keep the default Chinese templates. The overlay must not replace existing project files; it only applies to files just created from the baseline.
+If the host sandbox blocks writes to `.agents/`, do not fail or create workaround files. Continue with the already loaded global Skill plus `docs/agent/protocol.md`, install the Codex/Cursor adapters, and report project-level Skill installation as pending. A later trusted installer may copy it. The workflow must remain usable without the project-level Skill. Treat this host-policy denial as an expected compatibility fallback, not as a workflow error; do not create repository-local error logs such as `.learnings/` solely because of it.
+
+Overlay the corresponding files from `assets/project-template/locales/<language>/` after the baseline copy. The overlay must not replace pre-existing project files; it only localizes files created in this initialization.
 
 Then install tool adapters:
 
@@ -60,10 +63,11 @@ Before reporting success, verify:
 
 - `docs/agent/PROJECT_STATUS.md` exists and keeps `active_task: null`.
 - all three role files and every task template file exist.
-- the project-level Skill and its `references/protocol.md` exist.
+- `docs/agent/protocol.md` exists; the project-level Skill is either installed or explicitly reported pending because the host denied `.agents/` writes.
 - the Codex block is present in root `AGENTS.md` without losing prior content.
 - Cursor rule and command files exist unless preserved collisions were reported.
 - local Markdown links resolve.
+- `scripts/workflow_state.py --repo <target> status` can read the initialized project when Python 3 is available.
 - no product code or real task was created.
 
 Report created files, preserved collisions, configured language and identities, and adapters that still require a real new-session verification.

@@ -1,12 +1,14 @@
 # Project Role Workflow Skill Pack
 
-版本：1.2.0
+版本：1.3.0
 
-这个安装包把多智能体协作所需的 Skill、共享状态模板和工具入口放在一起。安装后，Planner、Implementer、Reviewer 通过目标仓库中的 `docs/agent/` 交接；对话框只负责触发“继续”，不再承担唯一上下文。正式 ZIP 与 SHA-256 校验文件应作为 GitHub Release 附件发布，而不是提交到源码仓库。
+这个安装包把多智能体协作所需的 Skill、共享状态模板、状态安全脚本和工具入口放在一起。安装后，Planner、Implementer、Reviewer 通过目标仓库中的 `docs/agent/` 交接；对话框只负责触发命令，不再承担唯一上下文。正式 ZIP 与 SHA-256 校验文件应作为 GitHub Release 附件发布，而不是提交到源码仓库。
 
 安装全局 Skill 后，可以在空白仓库中说 `$project-role-workflow 初始化当前仓库` 或 `$project-role-workflow initialize this repository`。Skill 会先询问中文/英文，再从内置 `assets/project-template/` 安装对应语言模板，最后询问三个角色的工具分配。
 
 初始化后，`继续` 和 `continue` 等价。项目语言会约束后续选项、对话、需求、计划、执行记录、审查与验收报告。Implementer 在修改产品代码前还会要求用户明确选择本次任务是否使用子代理。
+
+`更换 Agent`、`替换 Agent`、`replace agent` 和 `switch agent` 等价。它们允许旧 Agent 或新 Agent 在明确授权下更换某个角色的当前任务绑定、未来默认绑定或两者，并通过 Python 3 标准库脚本保护状态 revision。没有 Python 3 时工作流仍可手工串行使用，但会报告缺少锁、CAS 和原子写入保护。
 
 ## 包内内容
 
@@ -101,5 +103,5 @@ docs/agent/PROJECT_STATUS.md
 ## 边界
 
 - 安装只建立文件协作协议，不会自动唤醒下一个智能体。
-- 状态文件不是文件锁；第一版要求同一工作目录、单活动任务、单写入会话。
+- 辅助脚本的短时锁只保护同一 checkout 的协调状态事务；产品代码、不同 worktree 和不同机器仍依赖单写入约定与显式同步。
 - `DONE` 只代表任务验收完成，不自动授权合并、发布、部署、删除或回滚。

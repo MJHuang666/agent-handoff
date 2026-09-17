@@ -12,11 +12,26 @@ fail() {
 for required_file in \
   LICENSE README.md README.zh-CN.md CHANGELOG.md CONTRIBUTING.md SECURITY.md \
   shared/.agents/skills/project-role-workflow/SKILL.md \
+  shared/.agents/skills/project-role-workflow/references/state-helper.md \
+  shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
   shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/SKILL.md \
+  shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
   shared/.agents/skills/project-role-workflow/assets/project-template/locales/zh-CN/docs/agent/protocol.md \
-  shared/docs/agent/tasks/_template/STATE.md; do
+  shared/docs/agent/tasks/_template/STATE.md \
+  codex/prompts/replace-agent.md \
+  cursor/.cursor/commands/replace-agent.md \
+  tests/test_workflow_state.py; do
   test -f "$required_file" || fail "missing required file: $required_file"
 done
+
+cmp -s \
+  shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
+  shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
+  || fail "workflow_state.py bootstrap copy differs from source"
+test -x shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
+  || fail "workflow_state.py must be executable"
+
+python3 -m unittest -v tests/test_workflow_state.py
 
 for skill_file in \
   shared/.agents/skills/project-role-workflow/SKILL.md \
@@ -25,6 +40,11 @@ for skill_file in \
   sed -n '2,40p' "$skill_file" | grep -Eq '^name: [a-z0-9-]+$' || fail "invalid name field: $skill_file"
   sed -n '2,40p' "$skill_file" | grep -Eq '^description: .+' || fail "missing description field: $skill_file"
 done
+
+cmp -s \
+  shared/.agents/skills/project-role-workflow/SKILL.md \
+  shared/.agents/skills/project-role-workflow/assets/project-template/shared/.agents/skills/project-role-workflow/SKILL.md \
+  || fail "bootstrap Skill differs from source"
 
 python3 - <<'PY'
 from pathlib import Path
@@ -63,7 +83,8 @@ test ! -e "$bootstrap_example" || fail "bootstrap assets must not include TASK-E
 build_dir="$(mktemp -d "${TMPDIR:-/tmp}/project-role-workflow-validate.XXXXXX")"
 trap 'rm -rf -- "$build_dir"' EXIT
 package_root="$build_dir/project-role-workflow-skill-pack"
-archive="$build_dir/project-role-workflow-skill-pack-v1.2.0.zip"
+version="$(tr -d '[:space:]' < distribution/VERSION)"
+archive="$build_dir/project-role-workflow-skill-pack-v${version}.zip"
 checksum="$archive.sha256"
 
 mkdir -p "$package_root"

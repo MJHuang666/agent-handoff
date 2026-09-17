@@ -10,6 +10,12 @@
 
 只有同时满足以下条件，才允许写入业务文件：存在活动任务、参与者身份已确认、当前角色与分派一致、不存在其他写入会话，并且工作目录和版本证据已经核对。否则保持只读，并说明当前正在等待哪个参与者。
 
+## 更换 Agent
+
+接受“更换 Agent”“替换 Agent”“replace agent”和“switch agent”。旧 Agent 或新 Agent 都可以发起这一明确授权的管理操作。角色保持不变，每次选择 `current-task`、`project-default` 或 `both` 范围，并创建或复用同角色身份。优先使用 `.agents/skills/project-role-workflow/scripts/workflow_state.py` 提供短时本地锁、expected revision 校验和原子替换。
+
+允许 A → B → A 多次切换，每次复用不可变 participant_id 并追加 MANAGEMENT 记录。当前责任参与者变化时增加 revision 和 stage_round，清空 writer/checkpoint；非当前角色绑定只增加 revision。Implementer 更换后重置子代理选择。不得自动释放锁或覆盖运行中的 writer；更换管理操作结束后，新参与者再单独执行“继续”。
+
 ## Implementer 子代理门禁
 
 修改产品代码前，`STATE.md.subagent_policy` 必须是 `USE` 或 `DO_NOT_USE`。如果值为 `UNSELECTED`，先用项目语言询问用户，并把用户的明确选择记录到 `subagent_decision_ref`。只有选择 `USE` 才能使用子代理，同时必须记录委派内容、结果和证据。

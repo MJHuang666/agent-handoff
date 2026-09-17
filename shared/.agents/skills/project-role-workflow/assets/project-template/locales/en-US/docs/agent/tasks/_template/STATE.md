@@ -11,6 +11,10 @@ assignments:
   planner: "<planner-participant-id>"
   implementer: "<implementer-participant-id>"
   reviewer: "<reviewer-participant-id>"
+assignment_change_refs:
+  planner: null
+  implementer: null
+  reviewer: null
 current_role: planner
 current_participant: "<planner-participant-id>"
 writer_session: null
@@ -31,4 +35,4 @@ resume_status: null
 updated_at: "<ISO-8601>"
 ```
 
-The task must equal `PROJECT_STATUS.md.active_task` before business writes. Increment `revision` for every STATE change and `stage_round` when stage or responsible participant changes.
+The task must equal `PROJECT_STATUS.md.active_task` before business writes. Increment `revision` for every STATE change and `stage_round` when stage or responsible participant changes. Each `assignment_change_refs` entry points to the latest Agent replacement management record for that role.

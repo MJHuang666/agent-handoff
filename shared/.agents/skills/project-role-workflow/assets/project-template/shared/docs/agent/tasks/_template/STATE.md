@@ -11,6 +11,10 @@ assignments:
   planner: "<planner-participant-id>"
   implementer: "<implementer-participant-id>"
   reviewer: "<reviewer-participant-id>"
+assignment_change_refs:
+  planner: null
+  implementer: null
+  reviewer: null
 current_role: planner
 current_participant: "<planner-participant-id>"
 writer_session: null
@@ -35,4 +39,5 @@ updated_at: "<ISO-8601>"
 
 - 业务写入前确认本任务等于 `PROJECT_STATUS.md` 的 active_task。
 - 每次 STATE 修改都增加 revision；阶段或责任参与者变化时增加 stage_round。
+- `assignment_change_refs` 分别指向三个角色最近一次 Agent 更换管理记录；没有更换时为 null。
 - 字段组合和合法流转以 `../../workflow.md` 为准。

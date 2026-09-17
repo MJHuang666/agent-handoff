@@ -46,4 +46,4 @@ finished_at: <ISO-8601-or-null>
 - Focus: <next action>
 ````
 
-CHECKPOINT 还必须记录未完成动作、仍运行进程和恢复前需要核对的副作用。检查点只在 task、stage_round、role、participant_id 全部匹配时有效。
+CHECKPOINT 还必须记录未完成动作、仍运行进程和恢复前需要核对的副作用。检查点只在 task、stage_round、role、participant_id 全部匹配时有效。Agent 更换使用 `kind: MANAGEMENT`，记录 transaction_id、范围、旧/新 participant、原因、授权及输入/输出 revision。

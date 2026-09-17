@@ -13,6 +13,10 @@ assignments:
   planner: planner-main
   implementer: implementer-main
   reviewer: reviewer-main
+assignment_change_refs:
+  planner: null
+  implementer: null
+  reviewer: null
 current_role: null
 current_participant: null
 writer_session: null

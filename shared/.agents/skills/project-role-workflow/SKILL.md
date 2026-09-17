@@ -15,6 +15,7 @@ These explicit commands are equivalent:
 |---|---|
 | `$project-role-workflow 初始化当前仓库` | `$project-role-workflow initialize this repository` |
 | `$project-role-workflow 继续` | `$project-role-workflow continue` |
+| `$project-role-workflow 更换 Agent` / `$project-role-workflow 替换 Agent` | `$project-role-workflow replace agent` / `$project-role-workflow switch agent` |
 
 The same Chinese or English wording may be used without the `$` prefix when the Skill is already loaded. During initialization, ask for the project language **before** asking which tools serve the three roles. Record `language: zh-CN` or `language: en-US` in `PROJECT_STATUS.md`. From then on, use that language for user-facing messages and all new requirements, plans, execution reports, reviews, progress records, decisions, and acceptance reports. Keep protocol field names and status enum values stable.
 
@@ -25,6 +26,19 @@ If the user asks to initialize this workflow, or `docs/agent/PROJECT_STATUS.md` 
 Initialization may create missing collaboration files, but it must not overwrite project files, invent participant identities, create a real task, or modify product code. After installing the baseline, collect the Planner, Implementer, and Reviewer tool choices and create their registered Profiles.
 
 Before an Implementer changes product code, read `STATE.md.subagent_policy`. If it is `UNSELECTED`, ask the user whether to use subagents (`USE` / `DO_NOT_USE`) and record the answer and authorization reference. Do not start implementation until the choice is explicit.
+
+## Replace an Agent
+
+Old and new agents may both start a replacement, including repeated A → B → A switches. Read [references/state-helper.md](references/state-helper.md) and [references/protocol.md](references/protocol.md), then:
+
+1. Show the three roles and their current task/default bindings; ask which role changes.
+2. Ask for scope: `current-task`, `project-default`, or `both`.
+3. Select an existing same-role `active`/`standby` participant or explicitly register a new immutable identity.
+4. Record the reason and authorization, show the exact proposed change, and obtain confirmation.
+5. Use `scripts/workflow_state.py replace-agent` with the freshly read revision. Do not edit coordination state around the helper.
+6. End the management operation. If the new participant is current, tell the user to invoke `继续` / `continue` separately.
+
+Changing chat windows while keeping the same participant is session recovery/takeover, not participant replacement. A running foreign writer must first be proven stopped; pass `--confirm-writer-stopped` only when that evidence and explicit authorization exist. Never auto-release a lock. If Python is unavailable, use the documented manual single-writer path and state that lock/CAS protection is degraded.
 
 ## Start Here
 

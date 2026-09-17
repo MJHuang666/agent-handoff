@@ -2,7 +2,7 @@
 
 Use this procedure when the user asks to initialize Project Role Workflow, using either `初始化当前仓库` or `initialize this repository`, or explicitly invokes the Skill in a repository without `docs/agent/PROJECT_STATUS.md`.
 
-The template source is `assets/project-template/`, resolved relative to this Skill directory. No Python runtime is required.
+The template source is `assets/project-template/`, resolved relative to this Skill directory. Markdown remains usable without Python, but Python 3 enables the bundled lock, revision-CAS, and atomic-write safety helper. Report the degraded manual single-writer mode when Python is unavailable.
 
 ## Preflight
 
@@ -67,6 +67,7 @@ Before reporting success, verify:
 - the Codex block is present in root `AGENTS.md` without losing prior content.
 - Cursor rule and command files exist unless preserved collisions were reported.
 - local Markdown links resolve.
+- `scripts/workflow_state.py --repo <target> status` can read the initialized project when Python 3 is available.
 - no product code or real task was created.
 
 Report created files, preserved collisions, configured language and identities, and adapters that still require a real new-session verification.

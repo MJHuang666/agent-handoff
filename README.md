@@ -5,7 +5,7 @@
 
 <img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/596acdcc-4126-460f-bb8a-5ed35359d4a4" />
 
-Project Role Workflow is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory.
+Project Role Workflow is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory. An optional standard-library Python helper adds a short-lived state lock, expected-revision checks, and atomic replacement.
 
 It supports Codex and Cursor entry points today, while keeping roles independent from tools. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same shared protocol when configured with a thin project-level instruction.
 
@@ -54,6 +54,19 @@ The selected language controls later user-facing conversation and task prose. St
 
 Before product-code work, an Implementer must ask whether to use subagents. The explicit choice is recorded in the task state; no code work starts while the choice is unselected.
 
+## Replace an agent
+
+Either the old or new agent can start the management flow:
+
+```text
+$project-role-workflow replace agent
+$project-role-workflow switch agent
+$project-role-workflow 更换 Agent
+$project-role-workflow 替换 Agent
+```
+
+Choose Planner, Implementer, or Reviewer and whether the replacement affects the current task, future defaults, or both. The role stays fixed while a same-role participant changes. A → B → A switching is supported and leaves a distinct management record each time. A running writer is never taken over by age, and stale-lock release requires explicit authorization. After replacement, invoke `continue` separately in the new agent.
+
 ## Repository layout
 
 ```text
@@ -75,7 +88,7 @@ Release ZIP archives and SHA-256 checksums are published as GitHub Release asset
 
 ## Safety boundaries
 
-- This is a file protocol, not a scheduler, file lock, permission system, or automatic agent handoff mechanism.
+- This is a file protocol, not a scheduler, permission system, or automatic handoff mechanism. The helper lock protects coordination state only within one checkout; it does not lock product code or coordinate machines.
 - The default model is one active task and one writer session in one working directory.
 - Different worktrees and machines require explicit Git synchronization and version checks.
 - `DONE` means task acceptance only; it never authorizes merge, deployment, release, deletion, rollback, or takeover.

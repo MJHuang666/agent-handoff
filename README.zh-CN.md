@@ -79,6 +79,8 @@ distribution/                   发布包安装说明
 
 ## 安装方式
 
+完整的命令、角色接力和异常恢复用法见：[Project Role Workflow 使用手册](docs/PROJECT_ROLE_WORKFLOW_USAGE.md)。
+
 新仓库优先使用 Skill 内置初始化器。它只复制缺失文件，并保留已有项目指令和运行状态。
 
 手工安装请阅读 [distribution/INSTALL.md](distribution/INSTALL.md)。自动初始化会刻意排除 `TASK-EXAMPLE-001`；手工复制完整源码时可以保留示例，但它只能用于说明，不能成为活动任务。

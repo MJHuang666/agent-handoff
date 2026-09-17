@@ -82,6 +82,8 @@ distribution/                   Release installation instructions
 
 ## Installation choices
 
+For the complete command and lifecycle reference, see [Project Role Workflow Usage](docs/PROJECT_ROLE_WORKFLOW_USAGE.md).
+
 For a new repository, prefer the Skill's built-in initializer. It copies only missing files and preserves existing instructions and project state.
 
 For a manual installation, follow [distribution/INSTALL.md](distribution/INSTALL.md). The automatic initializer deliberately excludes `TASK-EXAMPLE-001`; manual source copying may include it as documentation only, never as an active task.

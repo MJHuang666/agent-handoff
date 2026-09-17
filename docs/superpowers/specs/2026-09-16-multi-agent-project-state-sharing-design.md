@@ -1,12 +1,12 @@
-# 多 Agent 项目状态共享模板设计规格
+# Agent Relay 设计规格
 
-版本：1.4.0，2026-09-17。本文记录已实现的设计基线：身份、活动任务、交接、检查点、恢复、语言选择、子代理门禁、Agent 动态更换，以及 DeepSeek Harness 与 OpenCode 共享入口均已落入模板。没有经过全新工具会话验证的第三方适配仍必须标为待验证。
+版本：1.5.0，2026-09-17。Agent Relay 是轻量级多 Agent 接力协作框架：Coding Agent 不共享对话上下文，而是通过代码仓库接力可迁移、可恢复的项目状态。身份、活动任务、交接、检查点、恢复、语言选择、子代理门禁、Agent 动态更换、DeepSeek Harness 与 OpenCode 共享入口、Knowledge Index 和全新 clone 恢复验证均属于设计基线。没有经过真实新会话验证的第三方适配仍必须标为待验证。
 
 ## 1. 目标
 
 构建一个可复制到任意软件仓库的 Markdown-first 模板，使 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 及其他编码 Agent 能够围绕同一项目按角色接力工作。
 
-系统不依赖某个聊天窗口保存上下文。项目事实、角色分工、任务状态、阶段动作、结论、验证证据和下一步交接全部写入仓库文件，由 Git 作为共享总线。
+系统不依赖某个聊天窗口保存上下文。项目事实、角色分工、任务状态、阶段动作、结论、验证证据和下一步交接全部写入仓库文件，由 Git 作为共享总线。`knowledge-index.md` 只索引已经验证、可跨任务复用的长期知识，并链接回权威来源和证据；它不重复完整文档。
 
 ## 2. 设计原则
 
@@ -20,6 +20,7 @@
 8. Markdown-first。所有事实保持人类可读；可选的 Python 3 标准库脚本仅为协调状态提供短时本地锁、revision CAS 和原子写入，Python 不可用时降级为人工单写入协议。
 9. 第一版默认同一个工作目录、一个活动任务、一个写入会话串行接力。可以登记多个待办任务，但不同时推进。
 10. 文件记录不会自动唤醒另一个工具。用户在接棒窗口输入“继续”；角色尚未轮到时报告等待并结束本轮，不后台轮询。
+11. Relay 不是 Git、调度器、跨机器同步、分布式锁、自动合并、发布或部署系统。脏工作区迁移必须使用显式交接包并由接棒者验证。
 
 ## 3. 核心角色
 
@@ -79,12 +80,13 @@ participant_id 在项目内唯一，其 tool、role 创建后不可变，也不�
 ├── shared/
 │   ├── .agents/
 │   │   └── skills/
-│   │       └── project-role-workflow/
+│   │       └── agent-relay/
 │   │           └── SKILL.md
 │   └── docs/
 │       └── agent/
 │           ├── README.md
 │           ├── PROJECT_STATUS.md
+│           ├── knowledge-index.md
 │           ├── role-bindings.md
 │           ├── workflow.md
 │           ├── conventions.md
@@ -197,7 +199,7 @@ Codex 通过根目录 `AGENTS.md` 自动获得最小、稳定、始终有效的�
 
 ### 7.2 共享 Skill
 
-`.agents/skills/project-role-workflow/SKILL.md` 承载完整操作流程。它供 Codex、Cursor、DeepSeek Harness 和 OpenCode 共用，并为其他 Agent 提供可直接阅读的协议。
+`.agents/skills/agent-relay/SKILL.md` 承载完整操作流程。它供 Codex、Cursor、DeepSeek Harness 和 OpenCode 共用，并为其他 Agent 提供可直接阅读的协议。
 
 Skill 应在以下意图下触发：创建任务、规划任务、实施计划、继续当前任务、处理审查意见、审查变更、最终验证和关闭任务。
 

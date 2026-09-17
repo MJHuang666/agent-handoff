@@ -50,6 +50,13 @@ class AgentRelayContractTests(unittest.TestCase):
             self.assertIn("SUPERSEDED", text, document)
             self.assertIn("RETIRED", text, document)
 
+    def test_public_brand_and_migration_material_are_present(self):
+        self.assertIn("lightweight multi-Agent collaboration framework", (ROOT / "README.md").read_text(encoding="utf-8"))
+        self.assertIn("轻量级多 Agent 接力协作框架", (ROOT / "README.zh-CN.md").read_text(encoding="utf-8"))
+        migration = (ROOT / "docs/migration-v1.5.md").read_text(encoding="utf-8")
+        self.assertIn("Uncommitted-state handoff package", migration)
+        self.assertIn("未提交状态交接包", migration)
+
 
 if __name__ == "__main__":
     unittest.main()

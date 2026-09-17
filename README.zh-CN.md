@@ -1,11 +1,11 @@
-# 多 Agent 项目状态共享模板
+# Agent Relay
 
 [English](README.md)
 
 
 <img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" />
 
-Agent Relay 是一套 Markdown-first 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
+Agent Relay 是一个轻量级多 Agent 接力协作框架。Coding Agent 不需要共享对话上下文，只需要通过代码仓库接力可持久化的项目状态。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是把可复用的项目认知保存在仓库文件中；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
 
 它提供 Codex 与 Cursor 专用入口，并正式支持 DeepSeek Harness 和 OpenCode 复用统一入口。Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
 
@@ -18,7 +18,7 @@ Agent Relay 是一套 Markdown-first 的多智能体协作协议。Planner、Imp
        docs/agent/tasks/<TASK-ID>/
 ```
 
-固定交付物保存结论，追加式 `progress/` 保存每阶段动作与证据。下一个角色先读取项目总览、任务状态和上一角色交付物，再开始工作。
+固定交付物保存结论，追加式 `progress/` 保存每阶段动作与证据。下一个角色先读取项目总览、紧凑的 `knowledge-index.md`、任务状态和上一角色交付物，再开始工作。因此 Agent、对话、电脑或模型发生切换后，项目长期积累的有效认知仍可恢复。
 
 ## 三个角色
 
@@ -85,11 +85,14 @@ distribution/                   发布包安装说明
 
 手工安装请阅读 [distribution/INSTALL.md](distribution/INSTALL.md)。自动初始化会刻意排除 `TASK-EXAMPLE-001`；手工复制完整源码时可以保留示例，但它只能用于说明，不能成为活动任务。
 
+从 v1.4 迁移已有安装时，请阅读 [v1.5 迁移说明](docs/migration-v1.5.md)，其中包含未提交工作状态的明确交接包流程。
+
 ZIP 安装包和 SHA-256 校验文件通过 GitHub Release 发布，不提交到源码仓库。
 
 ## 边界
 
-- 这是文件协议，不是调度器、权限系统或自动唤醒机制；辅助锁只保护同一 checkout 中的协调状态，不锁产品代码，也不跨机器。
+- 这是 Relay 协议，不是调度器、权限系统、自动唤醒机制、Git 替代品或分布式锁；它不会自动同步机器或 worktree。
+- 辅助锁只保护同一 checkout 中的协调状态，不锁产品代码、不跨机器，也不自动合并、发布或部署。
 - 默认只允许同一工作目录中的一个活动任务和一个写入会话串行推进。
 - 不同 worktree 或机器需要显式同步 Git 状态并核对版本。
 - `DONE` 只表示任务验收完成，不授权合并、部署、发布、删除、回滚或接管。

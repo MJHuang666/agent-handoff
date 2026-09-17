@@ -1,5 +1,7 @@
 # 多 Agent 项目状态共享模板 Implementation Plan
 
+> Historical note: `project-role-workflow` is the pre-v1.5 name of Agent Relay. This plan is preserved as an implementation record.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 生成一套可复制到任意代码仓库的纯 Markdown 多 Agent 状态共享模板、Codex/Cursor 入口和可自动发现的共享 Skill。

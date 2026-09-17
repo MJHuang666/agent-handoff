@@ -5,7 +5,7 @@
 
 <img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/596acdcc-4126-460f-bb8a-5ed35359d4a4" />
 
-Agent Relay is a Markdown-first collaboration protocol for coding agents. Planner, Implementer, and Reviewer share project state through files in the repository rather than relying on one chat window's memory. An optional standard-library Python helper adds a short-lived state lock, expected-revision checks, and atomic replacement.
+Agent Relay is a lightweight multi-Agent collaboration framework. Coding Agents do not need to share conversation context; they relay durable project state through the repository. Planner, Implementer, and Reviewer preserve reusable project knowledge in files rather than relying on one chat window's memory. An optional standard-library Python helper adds a short-lived state lock, expected-revision checks, and atomic replacement.
 
 It supplies dedicated Codex and Cursor adapters and first-class shared entry support for DeepSeek Harness and OpenCode. Claude Code, WorkBuddy, ZCode, Trae, and other tools can use the same protocol through a thin project-level instruction. Roles remain independent from tools.
 
@@ -18,7 +18,7 @@ Requirement → Plan → Implementation → Review → Rework → Verification
                docs/agent/tasks/<TASK-ID>/
 ```
 
-Each role writes fixed deliverables and append-only progress records. The next agent reads the project summary, task state, and prior role output before acting.
+Each role writes fixed deliverables and append-only progress records. The next agent reads the project summary, compact `knowledge-index.md`, task state, and prior role output before acting. A project can therefore recover its working understanding after an Agent, chat, machine, or model changes.
 
 ## Roles
 
@@ -88,11 +88,14 @@ For a new repository, prefer the Skill's built-in initializer. It copies only mi
 
 For a manual installation, follow [distribution/INSTALL.md](distribution/INSTALL.md). The automatic initializer deliberately excludes `TASK-EXAMPLE-001`; manual source copying may include it as documentation only, never as an active task.
 
+Migrating an existing v1.4 installation? Read [v1.5 migration](docs/migration-v1.5.md), including the explicit handoff package for uncommitted work.
+
 Release ZIP archives and SHA-256 checksums are published as GitHub Release assets. They are not tracked in the source repository.
 
 ## Safety boundaries
 
-- This is a file protocol, not a scheduler, permission system, or automatic handoff mechanism. The helper lock protects coordination state only within one checkout; it does not lock product code or coordinate machines.
+- This is a Relay protocol, not a scheduler, permission system, automatic handoff mechanism, Git replacement, or distributed lock. It does not automatically synchronize machines or worktrees.
+- The helper lock protects coordination state only within one checkout; it does not lock product code, coordinate machines, merge, release, or deploy.
 - The default model is one active task and one writer session in one working directory.
 - Different worktrees and machines require explicit Git synchronization and version checks.
 - `DONE` means task acceptance only; it never authorizes merge, deployment, release, deletion, rollback, or takeover.

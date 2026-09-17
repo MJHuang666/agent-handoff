@@ -1,6 +1,19 @@
 # Changelog
 
-All notable changes to Project Role Workflow are documented here.
+All notable changes to Agent Relay are documented here. Project Role Workflow is the legacy name used before v1.5.
+
+## [1.5.0] - 2026-09-17
+
+### Added
+
+- `knowledge-index.md` for durable, evidence-linked architecture, constraints, decisions, and verified lessons.
+- An end-to-end fresh-clone recovery test that proves committed Relay state can be recovered without bringing uncommitted files along.
+- A documented, explicit handoff package for dirty working trees during machine or Agent migration.
+
+### Changed
+
+- Renamed the public Skill, commands, project directory, documentation, and release package from `project-role-workflow` to `agent-relay`.
+- Retained a thin legacy redirect until v2.0 and made the state helper recognize old lock names without permitting ambiguous automatic release.
 
 ## [1.4.0] - 2026-09-17
 

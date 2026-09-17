@@ -82,7 +82,7 @@ distribution/                   Release installation instructions
 
 ## Installation choices
 
-For the complete command and lifecycle reference, see [Project Role Workflow Usage](docs/PROJECT_ROLE_WORKFLOW_USAGE.md).
+For the complete command and lifecycle reference, see [Project Role Workflow Usage](docs/PROJECT_ROLE_WORKFLOW_USAGE.en-US.md) or the [Chinese guide](docs/PROJECT_ROLE_WORKFLOW_USAGE.md).
 
 For a new repository, prefer the Skill's built-in initializer. It copies only missing files and preserves existing instructions and project state.
 

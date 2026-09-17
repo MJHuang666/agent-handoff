@@ -79,7 +79,7 @@ distribution/                   发布包安装说明
 
 ## 安装方式
 
-完整的命令、角色接力和异常恢复用法见：[Project Role Workflow 使用手册](docs/PROJECT_ROLE_WORKFLOW_USAGE.md)。
+完整的中文命令、角色接力和异常恢复用法见：[Project Role Workflow 使用手册](docs/PROJECT_ROLE_WORKFLOW_USAGE.md)；也可查看 [English guide](docs/PROJECT_ROLE_WORKFLOW_USAGE.en-US.md)。
 
 新仓库优先使用 Skill 内置初始化器。它只复制缺失文件，并保留已有项目指令和运行状态。
 

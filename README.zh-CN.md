@@ -1,69 +1,108 @@
 # Agent Relay
 
-> 多 Agent 项目状态共享框架
+> 让记忆属于项目，而不是属于某个 Agent。
 
-[English](README.md)
+[English](README.md) · [最新版本](https://github.com/MJHuang666/multi-agent-relay/releases/latest) · [使用手册](docs/AGENT_RELAY_USAGE.md)
 
-让记忆属于项目，而不是属于 Agent。
+[![Release](https://img.shields.io/github/v/release/MJHuang666/multi-agent-relay?display_name=tag&color=7C3AED)](https://github.com/MJHuang666/multi-agent-relay/releases/latest)
+[![License](https://img.shields.io/badge/license-Apache--2.0-0EA5E9)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/MJHuang666/multi-agent-relay/validate-release.yml?label=validation)](https://github.com/MJHuang666/multi-agent-relay/actions)
 
-一个面向 Coding Agent 的轻量级项目认知接力框架，让项目认知持久化、可迁移，并与 Agent 解耦。
+<img width="1672" height="941" alt="Agent Relay 工作流" src="https://github.com/user-attachments/assets/2d9e7307-8cb5-4f12-b91d-ca0beef9d3fd" />
 
-最棒的一点是：智能体之间的通信完全不需要依赖对话上下文。
+**Agent Relay 是一个轻量级多 Agent 接力协作框架，解决不同 Coding Agent 上下文不共享的问题。** 它让多个 Agent 围绕同一代码仓库持续完成 Plan → Implement → Review → Handoff，并把一次次对话沉淀成可迁移、可恢复、与 Agent 解耦的项目认知。
 
-<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/2d9e7307-8cb5-4f12-b91d-ca0beef9d3fd" />
+Agent 不需要共享 Conversation Context（对话上下文），只需要 Relay（接力）项目状态。
 
+## 它解决的不是“聊天”，而是项目认知会丢失
 
-Agent Relay 是一个轻量级多 Agent 接力协作框架。Coding Agent 不需要共享对话上下文，只需要通过代码仓库接力可持久化的项目状态。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是把可复用的项目认知保存在仓库文件中；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
+Agent 可能停止，聊天窗口可能结束，模型可能更换，电脑可能迁移，开发环境也可能被重装。
 
-它提供 Codex 与 Cursor 专用入口，并正式支持 DeepSeek Harness 和 OpenCode 复用统一入口。Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
+但项目长期积累的“认知资产”不能跟着消失。
 
-## 解决什么问题
-
-不同 Agent 的对话上下文通常不共享。本模板把仓库变成持久协作面：
+Agent Relay 把真正需要继承的内容保存在仓库中：需求、计划、架构约束、决策、实施证据、审查结论、交接记录，以及紧凑的长期知识索引。无论哪个 Agent 在什么时候加入，都能读取这些项目状态，恢复这个项目已经积累的有效认知，而不必重新翻找或复述旧对话。
 
 ```text
-需求 → 计划 → 实施 → 审查 → 返修 → 验证
+临时的对话上下文                              可持久化的项目认知
+────────────────                              ──────────────────
+一个窗口 · 一个模型 · 一台电脑       ──►      仓库文件 · Git 历史 · 可验证证据
+                                                   ↓
+                                      任意兼容 Agent 都可以接力恢复
+```
+
+## 一个仓库，一条接力链
+
+```text
+需求 → 计划 → 实施 → 审查 → 返修 → 验证 → 交接
        docs/agent/tasks/<TASK-ID>/
 ```
 
-固定交付物保存结论，追加式 `progress/` 保存每阶段动作与证据。下一个角色先读取项目总览、紧凑的 `knowledge-index.md`、任务状态和上一角色交付物，再开始工作。因此 Agent、对话、电脑或模型发生切换后，项目长期积累的有效认知仍可恢复。
+每次交接都会留下：做了什么、为什么这样做、验证了什么、下一步由谁执行。接棒的 Agent 读取项目接力记录，而不是从不完整的聊天窗口里猜测上下文。
 
-## 三个角色
+| 被保存下来的认知 | 为什么重要 |
+|---|---|
+| `PROJECT_STATUS.md` + `STATE.md` | 恢复活动任务、当前角色、参与者、revision 与交接位置。 |
+| `knowledge-index.md` | 让已经验证的架构、约束、决策和经验可以跨任务复用。 |
+| 需求、计划、实施、审查、决策文件 | 明确区分目标、实施证据与独立验收。 |
+| 追加式 progress 记录 | 保留推理与执行轨迹，又不会把文档变成聊天记录垃圾场。 |
+| 绑定 Git 的交付证据 | 让新环境可以确认被审查的究竟是哪一份代码。 |
 
-| 角色 | 负责 | 不负责 |
+## 为角色协作而设计，而不是依赖一个“全能 Agent”
+
+| 角色 | 负责 | 边界 |
 |---|---|---|
-| Planner | 需求、边界、计划、决策、验收标准 | 修改产品代码 |
-| Implementer | 代码、测试、实施证据、返修 | 关闭审查问题 |
-| Reviewer | 独立审查、验证、完成决策 | 直接修复产品代码 |
+| **Planner** | 范围、非目标、计划、决策、验收标准 | 不修改产品代码。 |
+| **Implementer** | 代码、测试、实施证据、审查返修 | 不自行批准交付。 |
+| **Reviewer** | 独立审查、验证、完成决策 | 不直接修复产品代码。 |
 
-<img width="1672" height="941" alt="b6983acc7f20aa6e7e05b30de4db7f88" src="https://github.com/user-attachments/assets/868c75bd-016f-4ed0-812b-20d53c51bd5e" />
+角色与工具解耦。同一个工具可以承担多个角色；同一角色也可以在不同工具之间切换，而项目状态不会丢失。
 
+<img width="1672" height="941" alt="Planner Implementer Reviewer 交接" src="https://github.com/user-attachments/assets/868c75bd-016f-4ed0-812b-20d53c51bd5e" />
 
-## 快速开始
+## 三步开始
 
-1. 将 `shared/.agents/skills/agent-relay/` 安装为当前工具的个人 Skill。
-2. 打开新仓库，输入以下任一命令：
+### 1. 安装 Skill
 
-   ```text
-   $agent-relay 初始化当前仓库
-   $agent-relay initialize this repository
-   ```
-<img width="814" height="628" alt="9a3c8948164a8b340d70ad3fc11335e4" src="https://github.com/user-attachments/assets/86761441-3621-49b5-aabb-ba9c50e9ca38" />
+将 `agent-relay` 安装为个人 Skill，或下载[最新发行包](https://github.com/MJHuang666/multi-agent-relay/releases/latest)。
 
-3. 先选择中文或 English，再为三个角色指定工具。
-4. 让 Planner 创建第一个任务。
-5. 每次交接时打开下一个角色的工具，只说“继续”或 `continue`。
-<img width="840" height="362" alt="2c7493b4c6a7366e669c5f0bcb1274c5" src="https://github.com/user-attachments/assets/148b6c2c-5b17-4d09-b746-be12990c0e61" />
+### 2. 初始化仓库
 
-所选语言会约束后续面向用户的交流和新增任务文档正文；文件名、YAML 键、ID 与状态枚举保持稳定。
+```text
+$agent-relay 初始化当前仓库
+# 或
+$agent-relay initialize this repository
+```
 
-内置工具选项为 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 和其他。DeepSeek Harness 与 OpenCode 共用根 `AGENTS.md` 和 `.agents/skills/agent-relay/`；初始化器不创建重复的 `.dsh` 或 `.opencode` Skill 目录。
+初始化器会先询问项目语言，再为 Planner、Implementer、Reviewer 绑定工具。它只补齐缺失文件，不会覆盖已有项目状态。
 
-Implementer 修改产品代码前必须询问是否使用子代理，并把明确选择写入任务状态；未选择时不得开始代码实施。
+### 3. 持续接力
 
-## 更换 Agent
+每次交接后，打开分配给下一位参与者的工具并输入：
 
-旧 Agent 或新 Agent 都可以发起：
+```text
+$agent-relay 继续
+# 或
+$agent-relay continue
+```
+
+Agent 会确认自己的 participant Profile，读取项目接力状态，判断是否轮到自己；若未轮到，就明确报告当前正在等待的参与者。
+
+## 工具无关，项目优先
+
+Agent Relay 为 Codex 与 Cursor 提供直接入口，并为 DeepSeek Harness 和 OpenCode 提供一等共享入口说明。Claude Code、WorkBuddy、ZCode、Trae 及其他 Coding Agent 也可以使用同一套仓库协议。
+
+真正长期稳定的契约不是某个厂商的对话格式，而是项目仓库本身。
+
+| 现实场景 | Relay 如何处理 |
+|---|---|
+| 某个 Agent 的 token 用完 | 安全替换同角色参与者，记录管理交接并进行 revision 校验。 |
+| 切换电脑或 worktree | 显式同步仓库、核验交付版本，再从接力状态恢复。 |
+| 聊天或环境重置 | 读取项目总览、知识索引、任务状态和上一个交接记录。 |
+| 迁移时存在未提交工作 | 使用已文档化的未提交状态交接包；Git clone 只能恢复已提交状态。 |
+
+## 安全更换 Agent
+
+旧 Agent 或新 Agent 都可以发起同角色参与者更换。A → B → A 可以多次来回切换，每次都会留下可审计的管理记录。
 
 ```text
 $agent-relay 更换 Agent
@@ -72,46 +111,36 @@ $agent-relay replace agent
 $agent-relay switch agent
 ```
 
-每次选择 Planner、Implementer 或 Reviewer，以及“仅当前任务”“仅未来任务”或“两者”。角色不变，只更换同角色 participant；A → B → A 可反复切换并保留每次管理记录。运行中的 writer 不会因为超时自动被抢占，旧会话停止和残留锁释放都需要明确授权。更换完成后，在新 Agent 中另行说“继续”。
+可选 Python 辅助脚本提供短时本地锁、expected revision 校验和原子化协调写入。它还能识别 v1.4 的旧锁名，并在新旧锁同时存在时拒绝含糊的自动恢复。
 
-## 仓库结构
+## 仓库中的接力结构
 
 ```text
-shared/                         协议、任务模板和核心 Skill 的唯一事实源
-  .agents/skills/agent-relay/
-  docs/agent/
-codex/                          Codex 入口与可复用提示词
-cursor/                         Cursor 规则与命令
-distribution/                   发布包安装说明
+.agents/skills/agent-relay/     项目级 Skill 与状态安全脚本
+docs/agent/
+  PROJECT_STATUS.md              项目入口与活动任务索引
+  knowledge-index.md             已验证、可复用的项目认知
+  role-bindings.md               稳定的角色与参与者身份
+  tasks/<TASK-ID>/               需求、计划、证据、审查与交接
 ```
 
-## 安装方式
+完整生命周期请阅读：[中文使用手册](docs/AGENT_RELAY_USAGE.md)、[English guide](docs/AGENT_RELAY_USAGE.en-US.md) 与 [v1.5 迁移说明](docs/migration-v1.5.md)。
 
-完整的中文命令、角色接力和异常恢复用法见：[Agent Relay 使用手册](docs/AGENT_RELAY_USAGE.md)；也可查看 [English guide](docs/AGENT_RELAY_USAGE.en-US.md)。
+## 清晰的边界
 
-新仓库优先使用 Skill 内置初始化器。它只复制缺失文件，并保留已有项目指令和运行状态。
+Agent Relay 有意保持轻量。它不是调度器、权限系统、Git 替代品、分布式锁或自动部署服务。
 
-手工安装请阅读 [distribution/INSTALL.md](distribution/INSTALL.md)。自动初始化会刻意排除 `TASK-EXAMPLE-001`；手工复制完整源码时可以保留示例，但它只能用于说明，不能成为活动任务。
-
-从 v1.4 迁移已有安装时，请阅读 [v1.5 迁移说明](docs/migration-v1.5.md)，其中包含未提交工作状态的明确交接包流程。
-
-ZIP 安装包和 SHA-256 校验文件通过 GitHub Release 发布，不提交到源码仓库。
-
-## 边界
-
-- 这是 Relay 协议，不是调度器、权限系统、自动唤醒机制、Git 替代品或分布式锁；它不会自动同步机器或 worktree。
-- 辅助锁只保护同一 checkout 中的协调状态，不锁产品代码、不跨机器，也不自动合并、发布或部署。
-- 默认只允许同一工作目录中的一个活动任务和一个写入会话串行推进。
-- 不同 worktree 或机器需要显式同步 Git 状态并核对版本。
-- `DONE` 只表示任务验收完成，不授权合并、部署、发布、删除、回滚或接管。
-- 宿主禁止写入 `.agents/` 时，工作流降级为已加载的全局 Skill 加 `docs/agent/protocol.md`。
+- 文件不会自动唤醒另一个 Agent；用户需要打开下一工具继续接力。
+- 辅助锁只保护单个 checkout 的协调状态，不锁产品代码，也不协调多台机器。
+- Git 同步、合并、发布与部署仍是需要人明确授权的操作。
+- `DONE` 只代表任务验收完成。
 
 ## 验证与贡献
 
-贡献前运行与 CI 等价的校验：
+贡献前运行与发行等价的校验：
 
 ```bash
 bash .github/scripts/validate-release.sh
 ```
 
-请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)、[SECURITY.md](SECURITY.md) 和 [CHANGELOG.md](CHANGELOG.md)。项目使用 [Apache-2.0](LICENSE) 许可证。
+请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)、[SECURITY.md](SECURITY.md) 和 [CHANGELOG.md](CHANGELOG.md)。Agent Relay 使用 [Apache-2.0](LICENSE) 许可证。

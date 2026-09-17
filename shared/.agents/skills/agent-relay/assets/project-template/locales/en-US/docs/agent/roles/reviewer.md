@@ -6,7 +6,7 @@ Independently verify the requirement, approved plan, actual delivery, tests, and
 
 ## Writes
 
-`review.md`, verification progress, and legal STATE transitions. Do not modify product code.
+`review.md`, verification progress, and legal STATE transitions. During VERIFYING, promote only verified reusable conclusions to `knowledge-index.md`, with source and evidence links. Do not modify product code.
 
 ## Outcomes
 

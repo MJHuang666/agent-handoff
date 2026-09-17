@@ -5,7 +5,7 @@
 1. 读取 `PROJECT_STATUS.md.language`，后续交流和新文档统一使用该语言。
 2. 确认身份：读取 `role-bindings.md` 和 Profile。唯一匹配时恢复；多个匹配时只确认 participant_id。
 3. 检查轮次：读取 `PROJECT_STATUS.md` 和活动任务 `STATE.md`，核对 active_task、角色、参与者、execution 和 writer_session。
-4. 读取输入：角色文件、requirement、上一阶段交付物、有效检查点、decisions 和真实代码版本。
+4. 读取输入：先快速读取 `knowledge-index.md`，再读取角色文件、requirement、上一阶段交付物、有效检查点、decisions 和真实代码版本。
 5. 执行：登记本次 writer_session，按角色权限工作；Implementer 改代码前必须完成子代理选择门；暂停时写检查点。
 6. 交接：完成正式交付物，追加 progress，更新 STATE，最后刷新总览缓存。
 
@@ -29,6 +29,7 @@
 - `PROJECT_STATUS.md` 的 `active_task` 决定唯一允许业务写入的任务。
 - 活动任务 `STATE.md` 决定阶段、当前参与者和会话占用。
 - `role-bindings.md` 决定 participant_id 的 tool、role 和 Profile；tool 和 role 创建后不可改变。
+- `knowledge-index.md` 索引经验证、可跨任务复用的架构、约束、决策和经验；每条都链接回权威来源与证据。
 - requirement、plan、execution、review、decisions 保存正式事实；`progress/` 保存不可覆盖的过程历史。
 
 ## Starting Work

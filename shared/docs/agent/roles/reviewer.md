@@ -12,6 +12,7 @@
 ## Writes
 
 - `review.md`：结论、稳定问题编号、证据、缺口和最终验收结果。
+- `knowledge-index.md`：仅在 VERIFYING 中把已验证且可跨任务复用的结论提升为索引条目，并链接权威来源和证据。
 - 自己的 progress 记录及合法交接状态。
 
 ## Boundaries

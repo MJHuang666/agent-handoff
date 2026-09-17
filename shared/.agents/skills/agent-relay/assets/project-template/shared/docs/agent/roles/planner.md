@@ -14,6 +14,7 @@
 - `requirement.md`：在用户授权范围内补齐目标、非目标、约束和验收条件。
 - `plan.md`：范围、设计、步骤、风险、兼容要求、验证方案和批准来源。
 - `decisions.md`：经批准的持久决策。
+- `knowledge-index.md`：只提议可跨任务复用的索引候选；未经 Reviewer 验证不得标记为 `ACTIVE`。
 - 自己的 progress 记录及合法交接状态。
 
 ## Boundaries

@@ -42,11 +42,11 @@ Changing chat windows while keeping the same participant is session recovery/tak
 
 ## Start Here
 
-1. Read `docs/agent/PROJECT_STATUS.md`, then the active task `STATE.md`.
+1. Read `docs/agent/PROJECT_STATUS.md`, then skim `docs/agent/knowledge-index.md`, then the active task `STATE.md`.
 2. Read and honor the recorded project language before communicating or writing.
 3. Read `docs/agent/role-bindings.md`. If this tool has one active identity, restore it. If it has multiple identities, ask the user to select a participant_id; do not infer identity from the role currently needed.
 4. Confirm the task is active, the identity matches current_role/current_participant, and no other writer_session is running. Otherwise remain read-only and report who or what is awaited in the project language.
-5. Read the participant Profile, its role file, requirement, relevant deliverables, latest valid checkpoint, decisions, and real code version.
+5. Read the participant Profile, its role file, requirement, relevant knowledge-index sources, deliverables, latest valid checkpoint, decisions, and real code version.
 6. Work within the role, leave versioned evidence, and hand off using the documented order.
 
 For state transitions, permissions, takeover, version evidence, interruption recovery, and handoff rules, read [references/protocol.md](references/protocol.md) before any write.

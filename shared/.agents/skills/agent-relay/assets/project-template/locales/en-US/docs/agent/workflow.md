@@ -5,7 +5,7 @@
 1. Read `PROJECT_STATUS.md.language`; use it for communication and new documents.
 2. Resolve the participant from `role-bindings.md` and its Profile.
 3. Check `active_task`, task `STATE.md`, current role, participant, execution, and writer session.
-4. Read the role rules, requirement, prior deliverable, valid checkpoint, decisions, and real code version.
+4. Skim `knowledge-index.md`, then read the role rules, requirement, relevant sources, prior deliverable, valid checkpoint, decisions, and real code version.
 5. Register a writer session and work only within role permissions. Before product-code changes, Implementer must complete the subagent choice gate.
 6. Write the formal deliverable and progress record, update STATE, then refresh the project cache.
 

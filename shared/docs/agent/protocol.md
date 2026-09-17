@@ -22,9 +22,9 @@ Before changing product code, `STATE.md.subagent_policy` must be `USE` or `DO_NO
 
 ## Roles
 
-- Planner owns requirements, plans, decisions, and acceptance criteria; Planner does not modify product code.
+- Planner owns requirements, plans, decisions, and acceptance criteria; Planner proposes durable knowledge-index candidates but does not mark them verified or modify product code.
 - Implementer owns code, tests, execution evidence, and rework; Implementer does not close review issues.
-- Reviewer independently checks the real delivery and decides changes, planning return, blocking, verification, or completion; Reviewer does not fix product code.
+- Reviewer independently checks the real delivery and decides changes, planning return, blocking, verification, or completion; during VERIFYING, Reviewer promotes only verified reusable conclusions to `knowledge-index.md`. Reviewer does not fix product code.
 
 ## Handoff
 

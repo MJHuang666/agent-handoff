@@ -7,6 +7,7 @@
 | File or directory | Authority |
 |---|---|
 | `PROJECT_STATUS.md` | 项目总览及唯一 active_task |
+| `knowledge-index.md` | 长期架构、约束、决策和已验证经验的紧凑索引 |
 | `tasks/<task>/STATE.md` | 当前任务阶段、参与者、会话、版本引用和异常状态 |
 | `role-bindings.md` | participant_id、tool、role、Profile 及项目默认绑定 |
 | `roles/` | 三个角色的通用职责和权限 |
@@ -57,7 +58,7 @@ participant_id、tool、role 创建后不可更改或改作另一身份。身份
 2. 核对 active_task 和 STATE；
 3. 发现多个同工具身份时只询问选哪个；
 4. 发现其他 writer_session 为 running 时保持只读；
-5. 轮到自己时读取角色文件、requirement、上一交付物、有效 checkpoint、decisions 和实际代码版本；
+5. 轮到自己时先读 `knowledge-index.md`，再读取角色文件、requirement、上一交付物、有效 checkpoint、decisions 和实际代码版本；
 6. 登记本会话后开始工作。
 
 轮到 Implementer 时，如果任务 `subagent_policy` 还是 `UNSELECTED`，必须先询问本次实施“使用子代理 / 不使用子代理”，记录选择后才允许修改产品代码。

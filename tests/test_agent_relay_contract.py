@@ -33,6 +33,23 @@ class AgentRelayContractTests(unittest.TestCase):
             self.assertIn("$agent-relay", text, document)
             self.assertNotIn("$project-role-workflow", text, document)
 
+    def test_knowledge_index_is_present_in_all_template_variants(self):
+        documents = (
+            ROOT / "shared/docs/agent/knowledge-index.md",
+            CANONICAL
+            / "assets/project-template/shared/docs/agent/knowledge-index.md",
+            CANONICAL
+            / "assets/project-template/locales/zh-CN/docs/agent/knowledge-index.md",
+            CANONICAL
+            / "assets/project-template/locales/en-US/docs/agent/knowledge-index.md",
+        )
+        for document in documents:
+            text = document.read_text(encoding="utf-8")
+            self.assertIn("| ID |", text, document)
+            self.assertIn("ACTIVE", text, document)
+            self.assertIn("SUPERSEDED", text, document)
+            self.assertIn("RETIRED", text, document)
+
 
 if __name__ == "__main__":
     unittest.main()

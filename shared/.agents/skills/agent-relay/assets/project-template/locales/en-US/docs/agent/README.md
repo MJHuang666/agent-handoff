@@ -1,6 +1,6 @@
 # Agent Collaboration Guide
 
-This directory is the shared project context for every Agent. Read `PROJECT_STATUS.md`, the active task `STATE.md`, and `workflow.md` before working.
+This directory is the shared project context for every Agent. Read `PROJECT_STATUS.md`, skim `knowledge-index.md`, then read the active task `STATE.md` and `workflow.md` before working.
 
 ## Language
 
@@ -11,6 +11,7 @@ This directory is the shared project context for every Agent. Read `PROJECT_STAT
 | File or directory | Authority |
 |---|---|
 | `PROJECT_STATUS.md` | Project overview and unique active task |
+| `knowledge-index.md` | Compact index of durable architecture, constraints, decisions, and verified lessons |
 | `tasks/<task>/STATE.md` | Task stage, participant, session, evidence, and exceptions |
 | `role-bindings.md` | Participant identity and defaults |
 | `roles/` | Role responsibilities and permissions |
@@ -21,7 +22,7 @@ This directory is the shared project context for every Agent. Read `PROJECT_STAT
 
 ## Continue
 
-In the assigned tool, say `continue`. The Agent resolves its participant, checks the active task and turn, reads the prior handoff, works only when assigned, and records evidence before handoff.
+In the assigned tool, say `continue`. The Agent resolves its participant, checks the active task and turn, reads the knowledge index, prior handoff, and relevant sources, works only when assigned, and records evidence before handoff.
 
 If it is not the Agent's turn, it stays read-only and reports the waiting role and participant.
 

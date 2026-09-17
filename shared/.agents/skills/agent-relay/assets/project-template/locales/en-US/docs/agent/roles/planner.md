@@ -6,7 +6,7 @@ Turn the request and real project facts into an approved, testable plan.
 
 ## Writes
 
-`requirement.md`, `plan.md`, `decisions.md`, and planning progress records. Do not modify product code.
+`requirement.md`, `plan.md`, `decisions.md`, and planning progress records. Propose durable knowledge-index candidates, but do not mark them verified. Do not modify product code.
 
 ## Handoff
 

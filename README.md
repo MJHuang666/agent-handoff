@@ -2,7 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
-If you subscribe to the $20/$100 ChatGPT Plus plan, or if your Agent quota is running low, you can delegate planning, design, and review to GPT-6 Astra, GPT-5.6 Sol, or other advanced models, while handing off the heavy implementation work to Cursor Grok 4.6, DeepSeek, or other cost-effective models.
+Make memory belong to the project, not the agent.
+A lightweight framework for persistent, portable, and agent-independent project cognition across Coding Agents.
 
 The best part is that communication between agents doesn’t need to rely on conversation context at all.
 

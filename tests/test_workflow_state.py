@@ -8,7 +8,7 @@ from pathlib import Path
 
 SCRIPT = (
     Path(__file__).resolve().parents[1]
-    / "shared/.agents/skills/project-role-workflow/scripts/workflow_state.py"
+    / "shared/.agents/skills/agent-relay/scripts/workflow_state.py"
 )
 
 
@@ -185,7 +185,7 @@ created_at: "2026-01-01T00:00:00Z"
         worktree_git_dir = self.repo / ".git-worktree"
         worktree_git_dir.mkdir()
         git_dir.write_text("gitdir: .git-worktree\n", encoding="utf-8")
-        (worktree_git_dir / "project-role-workflow.lock").write_text(
+        (worktree_git_dir / "agent-relay.lock").write_text(
             '{"transaction_id":"worktree-lock"}', encoding="utf-8"
         )
         payload = json.loads(self.run_cli("status").stdout)
@@ -310,12 +310,45 @@ created_at: "2026-01-01T00:00:00Z"
         self.assertEqual(self.state_text(), before)
 
     def test_existing_lock_blocks_mutation(self):
-        lock = self.repo / ".git/project-role-workflow.lock"
+        lock = self.repo / ".git/agent-relay.lock"
         lock.write_text('{"transaction_id":"other"}', encoding="utf-8")
         before = self.state_text()
         result = self.replace("impl-a", "impl-b", 7, expect=3)
         self.assertIn("lock already exists", result.stderr)
         self.assertEqual(self.state_text(), before)
+
+    def test_legacy_lock_blocks_a_canonical_mutation(self):
+        lock = self.repo / ".git/project-role-workflow.lock"
+        lock.write_text('{"transaction_id":"legacy-lock"}', encoding="utf-8")
+        result = self.replace("impl-a", "impl-b", 7, expect=3)
+        self.assertIn("project-role-workflow.lock", result.stderr)
+        self.assertIn('revision: 7', self.state_text())
+
+    def test_release_stale_lock_releases_a_single_legacy_lock(self):
+        lock = self.repo / ".git/project-role-workflow.lock"
+        lock.write_text('{"transaction_id":"legacy-lock"}', encoding="utf-8")
+        result = self.run_cli(
+            "release-stale-lock",
+            "--authorization",
+            "writer confirmed stopped",
+        )
+        self.assertFalse(lock.exists())
+        self.assertIn("project-role-workflow.lock", json.loads(result.stdout)["released"])
+
+    def test_release_stale_lock_rejects_ambiguous_legacy_and_canonical_locks(self):
+        (self.repo / ".git/project-role-workflow.lock").write_text(
+            '{"transaction_id":"legacy-lock"}', encoding="utf-8"
+        )
+        (self.repo / ".git/agent-relay.lock").write_text(
+            '{"transaction_id":"canonical-lock"}', encoding="utf-8"
+        )
+        result = self.run_cli(
+            "release-stale-lock",
+            "--authorization",
+            "writer confirmed stopped",
+            expect=2,
+        )
+        self.assertIn("both legacy and canonical locks exist", result.stderr)
 
     def test_running_writer_requires_stopped_confirmation(self):
         path = self.repo / "docs/agent/tasks/TASK-001/STATE.md"
@@ -331,7 +364,7 @@ created_at: "2026-01-01T00:00:00Z"
         self.assertIn("writer_session: null", self.state_text())
 
     def test_release_lock_requires_authorization(self):
-        lock = self.repo / ".git/project-role-workflow.lock"
+        lock = self.repo / ".git/agent-relay.lock"
         lock.write_text('{"transaction_id":"orphan"}', encoding="utf-8")
         denied = self.run_cli("release-stale-lock", expect=2)
         self.assertIn("authorization", denied.stderr)

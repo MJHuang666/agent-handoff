@@ -1,10 +1,10 @@
-# Project Role Workflow Skill Pack
+# Agent Relay Skill Pack
 
 版本：1.4.0
 
 这个安装包把多智能体协作所需的 Skill、共享状态模板、状态安全脚本和工具入口放在一起。安装后，Planner、Implementer、Reviewer 通过目标仓库中的 `docs/agent/` 交接；对话框只负责触发命令，不再承担唯一上下文。正式 ZIP 与 SHA-256 校验文件应作为 GitHub Release 附件发布，而不是提交到源码仓库。
 
-安装全局 Skill 后，可以在空白仓库中说 `$project-role-workflow 初始化当前仓库` 或 `$project-role-workflow initialize this repository`。Skill 会先询问中文/英文，再从内置 `assets/project-template/` 安装对应语言模板，最后询问三个角色的工具分配。
+安装全局 Skill 后，可以在空白仓库中说 `$agent-relay 初始化当前仓库` 或 `$agent-relay initialize this repository`。Skill 会先询问中文/英文，再从内置 `assets/project-template/` 安装对应语言模板，最后询问三个角色的工具分配。
 
 初始化后，`继续` 和 `continue` 等价。项目语言会约束后续选项、对话、需求、计划、执行记录、审查与验收报告。Implementer 在修改产品代码前还会要求用户明确选择本次任务是否使用子代理。
 
@@ -14,7 +14,7 @@
 
 | 路径 | 用途 | 是否必装 |
 |---|---|---:|
-| `shared/.agents/skills/project-role-workflow/` | 核心 Skill 和协议 | 是 |
+| `shared/.agents/skills/agent-relay/` | 核心 Skill 和协议 | 是 |
 | `shared/docs/agent/` | 项目状态、角色、参与者、任务模板和示例 | 是 |
 | `codex/AGENTS.md` | Codex 项目入口 | 使用 Codex 时 |
 | `codex/prompts/` | Codex 可复用提示词 | 可选 |
@@ -27,22 +27,22 @@
 
 ## 安装为个人 Skill
 
-要让 Skill 可以在空白仓库中自举，先把包内 `shared/.agents/skills/project-role-workflow/` 安装到当前工具的个人 Skill 目录：
+要让 Skill 可以在空白仓库中自举，先把包内 `shared/.agents/skills/agent-relay/` 安装到当前工具的个人 Skill 目录：
 
 | Tool | Personal Skill destination |
 |---|---|
-| Codex | `~/.codex/skills/project-role-workflow/` |
-| Claude Code | `~/.claude/skills/project-role-workflow/` |
-| DeepSeek Harness | 个人 Skill 目录，或直接使用项目 `.agents/skills/project-role-workflow/` |
-| OpenCode | 个人 Skill 目录，或直接使用项目 `.agents/skills/project-role-workflow/` |
+| Codex | `~/.codex/skills/agent-relay/` |
+| Claude Code | `~/.claude/skills/agent-relay/` |
+| DeepSeek Harness | 个人 Skill 目录，或直接使用项目 `.agents/skills/agent-relay/` |
+| OpenCode | 个人 Skill 目录，或直接使用项目 `.agents/skills/agent-relay/` |
 | 支持 Agent Skills 的其他工具 | 该工具声明的个人 Skills 目录 |
 
 完成后进入新仓库调用：
 
 ```text
-$project-role-workflow 初始化当前仓库
+$agent-relay 初始化当前仓库
 # or
-$project-role-workflow initialize this repository
+$agent-relay initialize this repository
 ```
 
 Skill 会从自身 `assets/project-template/` 安装缺失文件。已有文件仍按保留与合并规则处理。自动初始化不会复制 `TASK-EXAMPLE-001`，避免示例任务被误认为真实项目状态。
@@ -54,7 +54,7 @@ Skill 会从自身 `assets/project-template/` 安装缺失文件。已有文件�
 | 安装包来源 | 目标仓库位置 |
 |---|---|
 | `shared/docs/agent/` | `docs/agent/` |
-| `shared/.agents/skills/project-role-workflow/` | `.agents/skills/project-role-workflow/` |
+| `shared/.agents/skills/agent-relay/` | `.agents/skills/agent-relay/` |
 | `codex/AGENTS.md` | `AGENTS.md`，与已有规则合并 |
 | `codex/prompts/` | 可放入团队约定的 Codex 提示词目录 |
 | `cursor/.cursor/rules/` | `.cursor/rules/` |
@@ -62,33 +62,33 @@ Skill 会从自身 `assets/project-template/` 安装缺失文件。已有文件�
 
 ### Claude Code
 
-初始化完成的项目会保留通用副本 `.agents/skills/project-role-workflow/`。如果当前 Claude Code 版本不能发现它，再把项目级核心 Skill 复制到：
+初始化完成的项目会保留通用副本 `.agents/skills/agent-relay/`。如果当前 Claude Code 版本不能发现它，再把项目级核心 Skill 复制到：
 
 ```text
-.claude/skills/project-role-workflow/
+.claude/skills/agent-relay/
 ```
 
-两处并存时，以 `.agents/skills/project-role-workflow/` 为唯一维护源；Claude 副本只作为兼容入口。更新后必须重新同步并验证。
+两处并存时，以 `.agents/skills/agent-relay/` 为唯一维护源；Claude 副本只作为兼容入口。更新后必须重新同步并验证。
 
 ### ZCode
 
-可用 ZCode 的 Skill Import 导入 `shared/.agents/skills/project-role-workflow/`，范围选择 Current Project。若支持 Copy/Symlink，优先 Symlink 以避免双份内容漂移；不支持时选择 Copy，并记录同步责任。项目根 `AGENTS.md` 可使用 Codex 入口的内容，但必须与已有规则合并。
+可用 ZCode 的 Skill Import 导入 `shared/.agents/skills/agent-relay/`，范围选择 Current Project。若支持 Copy/Symlink，优先 Symlink 以避免双份内容漂移；不支持时选择 Copy，并记录同步责任。项目根 `AGENTS.md` 可使用 Codex 入口的内容，但必须与已有规则合并。
 
 ### DeepSeek Harness
 
-目标项目保留根 `AGENTS.md` 和 `.agents/skills/project-role-workflow/`。DeepSeek Harness 需启用 `dsh-agent-instructions`，并启用能扫描项目 `.agents/skills/` 的文件系统 Skill 加载器。不要创建 `.dsh/skills` 副本；未用真实新会话验证前，集成状态保持“待验证”。
+目标项目保留根 `AGENTS.md` 和 `.agents/skills/agent-relay/`。DeepSeek Harness 需启用 `dsh-agent-instructions`，并启用能扫描项目 `.agents/skills/` 的文件系统 Skill 加载器。不要创建 `.dsh/skills` 副本；未用真实新会话验证前，集成状态保持“待验证”。
 
 ### OpenCode
 
-OpenCode 可直接读取根 `AGENTS.md` 和项目 `.agents/skills/`。如果 `project-role-workflow` 没有出现，检查 Skill 权限，并检查 `.opencode/skills/` 是否存在同名高优先级副本。不要创建 `.opencode/skills` 副本，以 `.agents/skills/project-role-workflow/` 为唯一事实源。
+OpenCode 可直接读取根 `AGENTS.md` 和项目 `.agents/skills/`。如果 `agent-relay` 没有出现，检查 Skill 权限，并检查 `.opencode/skills/` 是否存在同名高优先级副本。不要创建 `.opencode/skills` 副本，以 `.agents/skills/agent-relay/` 为唯一事实源。
 
 ### WorkBuddy、Trae 和其他智能体
 
-如果工具支持项目 Skill，导入 `shared/.agents/skills/project-role-workflow/`。如果只支持 Rules/Instructions，就创建一个很短的项目入口，要求在涉及任务规划、实施、审查、恢复或状态变更时，读取：
+如果工具支持项目 Skill，导入 `shared/.agents/skills/agent-relay/`。如果只支持 Rules/Instructions，就创建一个很短的项目入口，要求在涉及任务规划、实施、审查、恢复或状态变更时，读取：
 
 ```text
-.agents/skills/project-role-workflow/SKILL.md
-.agents/skills/project-role-workflow/references/protocol.md
+.agents/skills/agent-relay/SKILL.md
+.agents/skills/agent-relay/references/protocol.md
 docs/agent/PROJECT_STATUS.md
 ```
 

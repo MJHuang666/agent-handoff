@@ -1,1 +1,0 @@
-Use the project-role-workflow Skill and continue the active task. Resolve my registered Cursor participant identity, read the project and task state, and act only if it is my turn. Otherwise report the exact waiting state without modifying files.

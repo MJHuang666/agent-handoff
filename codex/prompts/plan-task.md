@@ -1,1 +1,1 @@
-Use the project-role-workflow Skill as the assigned Planner for the active task. Read the real project context, complete the requirement and plan within existing authorization, record genuine approval references, and hand off only when the plan is ready and the next participant is registered.
+Use the agent-relay Skill as the assigned Planner for the active task. Read the real project context, complete the requirement and plan within existing authorization, record genuine approval references, and hand off only when the plan is ready and the next participant is registered.

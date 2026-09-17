@@ -1,1 +1,1 @@
-Use the project-role-workflow Skill as the assigned Implementer for the active task. Read the current open review findings and the prior delivery. Address only the requested and approved changes, create a new delivery_id with fresh evidence, update execution.md, and return the task to Reviewer.
+Use the agent-relay Skill as the assigned Implementer for the active task. Read the current open review findings and the prior delivery. Address only the requested and approved changes, create a new delivery_id with fresh evidence, update execution.md, and return the task to Reviewer.

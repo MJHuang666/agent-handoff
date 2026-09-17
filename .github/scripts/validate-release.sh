@@ -31,7 +31,7 @@ cmp -s \
 test -x shared/.agents/skills/project-role-workflow/scripts/workflow_state.py \
   || fail "workflow_state.py must be executable"
 
-python3 -m unittest -v tests/test_workflow_state.py
+python3 -m unittest discover -v tests
 
 for skill_file in \
   shared/.agents/skills/project-role-workflow/SKILL.md \

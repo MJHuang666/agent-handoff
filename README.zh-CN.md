@@ -5,7 +5,7 @@
 
 <img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" />
 
-Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
+Agent Relay 是一套 Markdown-first 的多智能体协作协议。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是通过仓库中的文件交接项目状态；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
 
 它提供 Codex 与 Cursor 专用入口，并正式支持 DeepSeek Harness 和 OpenCode 复用统一入口。Claude Code、WorkBuddy、ZCode、Trae 或其他工具也可以通过项目级薄入口读取同一份协议。角色不绑定特定工具。
 
@@ -33,12 +33,12 @@ Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Pla
 
 ## 快速开始
 
-1. 将 `shared/.agents/skills/project-role-workflow/` 安装为当前工具的个人 Skill。
+1. 将 `shared/.agents/skills/agent-relay/` 安装为当前工具的个人 Skill。
 2. 打开新仓库，输入以下任一命令：
 
    ```text
-   $project-role-workflow 初始化当前仓库
-   $project-role-workflow initialize this repository
+   $agent-relay 初始化当前仓库
+   $agent-relay initialize this repository
    ```
 <img width="814" height="628" alt="9a3c8948164a8b340d70ad3fc11335e4" src="https://github.com/user-attachments/assets/86761441-3621-49b5-aabb-ba9c50e9ca38" />
 
@@ -49,7 +49,7 @@ Project Role Workflow 是一套 Markdown-first 的多智能体协作协议。Pla
 
 所选语言会约束后续面向用户的交流和新增任务文档正文；文件名、YAML 键、ID 与状态枚举保持稳定。
 
-内置工具选项为 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 和其他。DeepSeek Harness 与 OpenCode 共用根 `AGENTS.md` 和 `.agents/skills/project-role-workflow/`；初始化器不创建重复的 `.dsh` 或 `.opencode` Skill 目录。
+内置工具选项为 Codex、Cursor、Claude Code、WorkBuddy、ZCode、Trae、DeepSeek Harness、OpenCode 和其他。DeepSeek Harness 与 OpenCode 共用根 `AGENTS.md` 和 `.agents/skills/agent-relay/`；初始化器不创建重复的 `.dsh` 或 `.opencode` Skill 目录。
 
 Implementer 修改产品代码前必须询问是否使用子代理，并把明确选择写入任务状态；未选择时不得开始代码实施。
 
@@ -58,10 +58,10 @@ Implementer 修改产品代码前必须询问是否使用子代理，并把明�
 旧 Agent 或新 Agent 都可以发起：
 
 ```text
-$project-role-workflow 更换 Agent
-$project-role-workflow 替换 Agent
-$project-role-workflow replace agent
-$project-role-workflow switch agent
+$agent-relay 更换 Agent
+$agent-relay 替换 Agent
+$agent-relay replace agent
+$agent-relay switch agent
 ```
 
 每次选择 Planner、Implementer 或 Reviewer，以及“仅当前任务”“仅未来任务”或“两者”。角色不变，只更换同角色 participant；A → B → A 可反复切换并保留每次管理记录。运行中的 writer 不会因为超时自动被抢占，旧会话停止和残留锁释放都需要明确授权。更换完成后，在新 Agent 中另行说“继续”。
@@ -70,7 +70,7 @@ $project-role-workflow switch agent
 
 ```text
 shared/                         协议、任务模板和核心 Skill 的唯一事实源
-  .agents/skills/project-role-workflow/
+  .agents/skills/agent-relay/
   docs/agent/
 codex/                          Codex 入口与可复用提示词
 cursor/                         Cursor 规则与命令
@@ -79,7 +79,7 @@ distribution/                   发布包安装说明
 
 ## 安装方式
 
-完整的中文命令、角色接力和异常恢复用法见：[Project Role Workflow 使用手册](docs/PROJECT_ROLE_WORKFLOW_USAGE.md)；也可查看 [English guide](docs/PROJECT_ROLE_WORKFLOW_USAGE.en-US.md)。
+完整的中文命令、角色接力和异常恢复用法见：[Agent Relay 使用手册](docs/AGENT_RELAY_USAGE.md)；也可查看 [English guide](docs/AGENT_RELAY_USAGE.en-US.md)。
 
 新仓库优先使用 Skill 内置初始化器。它只复制缺失文件，并保留已有项目指令和运行状态。
 

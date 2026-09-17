@@ -1,11 +1,11 @@
 # Contributing
 
-Thank you for improving Project Role Workflow.
+Thank you for improving Agent Relay.
 
 ## Before editing
 
 - Read `README.md`, `shared/docs/agent/protocol.md`, and the relevant Skill instructions.
-- Keep `shared/` as the canonical source. The project-template copies under `shared/.agents/skills/project-role-workflow/assets/project-template/` are generated/distribution-facing mirrors and must stay consistent with their source behavior.
+- Keep `shared/` as the canonical source. The project-template copies under `shared/.agents/skills/agent-relay/assets/project-template/` are generated/distribution-facing mirrors and must stay consistent with their source behavior.
 - Do not commit `.DS_Store`, `._*`, `.learnings/`, or `dist/`.
 
 ## Change boundaries

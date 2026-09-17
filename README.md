@@ -2,8 +2,13 @@
 
 [简体中文](README.zh-CN.md)
 
+Make memory belong to the project, not the agent.
+A lightweight framework for persistent, portable, and agent-independent project cognition across Coding Agents.
 
-<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/596acdcc-4126-460f-bb8a-5ed35359d4a4" />
+The best part is that communication between agents doesn’t need to rely on conversation context at all.
+
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/c613f203-32b8-4056-aa8e-1f53f6ec1200" />
+
 
 Agent Relay is a lightweight multi-Agent collaboration framework. Coding Agents do not need to share conversation context; they relay durable project state through the repository. Planner, Implementer, and Reviewer preserve reusable project knowledge in files rather than relying on one chat window's memory. An optional standard-library Python helper adds a short-lived state lock, expected-revision checks, and atomic replacement.
 

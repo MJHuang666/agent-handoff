@@ -1,9 +1,17 @@
 # Agent Relay
 
+> 多 Agent 项目状态共享框架
+
 [English](README.md)
 
+让记忆属于项目，而不是属于 Agent。
 
-<img width="1672" height="941" alt="ba14332458141704b359c20a8d40f1a0" src="https://github.com/user-attachments/assets/e07e4a0d-58a7-4622-915b-943da26f310a" />
+一个面向 Coding Agent 的轻量级项目认知接力框架，让项目认知持久化、可迁移，并与 Agent 解耦。
+
+最棒的一点是：智能体之间的通信完全不需要依赖对话上下文。
+
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/2d9e7307-8cb5-4f12-b91d-ca0beef9d3fd" />
+
 
 Agent Relay 是一个轻量级多 Agent 接力协作框架。Coding Agent 不需要共享对话上下文，只需要通过代码仓库接力可持久化的项目状态。Planner、Implementer 与 Reviewer 不依赖同一个聊天窗口保存上下文，而是把可复用的项目认知保存在仓库文件中；可选的标准库 Python 辅助脚本为状态写入增加短时文件锁、revision 校验和原子替换。
 

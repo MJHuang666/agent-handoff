@@ -1,6 +1,6 @@
 # Agent Relay 使用手册
 
-本文对应 `agent-relay` Skill v1.4.0，说明初始化、任务接力、Agent 更换、暂停恢复、状态查询和最终验收。
+本文对应 `agent-relay` Skill v1.5.0，说明初始化、任务接力、Agent 更换、暂停恢复、状态查询和最终验收。
 
 ## 1. 初始化仓库
 

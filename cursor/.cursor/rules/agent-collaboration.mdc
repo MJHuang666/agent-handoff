@@ -8,7 +8,7 @@ When `docs/agent/PROJECT_STATUS.md` exists, requests to create, plan, implement,
 
 Recognize `$agent-relay 初始化当前仓库` / `$agent-relay initialize this repository`, `$agent-relay 继续` / `$agent-relay continue`, and the equivalent Agent replacement commands `更换 Agent`, `替换 Agent`, `replace agent`, and `switch agent`. During initialization ask for `zh-CN` or `en-US` before role-tool selection and use that language for communication and new documents. Before Implementer code changes, require and record `USE` or `DO_NOT_USE` for subagents.
 
-Before writing, read the project status, active task STATE, role bindings, participant Profile, shared role rules, relevant deliverables, latest valid checkpoint, and the Skill protocol. Resolve the Cursor participant identity from registration; if multiple Cursor identities exist, ask which participant_id to use instead of assuming the role currently needed.
+Before writing, read the project status, compact knowledge index, active task STATE, role bindings, participant Profile, shared role rules, relevant deliverables, latest valid checkpoint, and the Skill protocol. Resolve the Cursor participant identity from registration; if multiple Cursor identities exist, ask which participant_id to use instead of assuming the role currently needed.
 
 Only the active task's current participant may perform business writes, and only when no other writer_session is active. Stay read-only when waiting. Do not replace a running writer_session because it looks stale, do not fix code while assigned as Reviewer, and do not treat state files as locks or permission to merge, release, deploy, delete, reset, or overwrite work.
 

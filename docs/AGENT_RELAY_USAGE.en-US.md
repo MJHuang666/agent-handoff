@@ -1,6 +1,6 @@
 # Agent Relay Usage Guide
 
-This guide covers `agent-relay` Skill v1.4.0: initialization, role handoff, Agent replacement, pause and recovery, state inspection, and task acceptance.
+This guide covers `agent-relay` Skill v1.5.0: initialization, role handoff, Agent replacement, pause and recovery, state inspection, and task acceptance.
 
 ## Initialize a repository
 

@@ -36,7 +36,7 @@ Overlay the corresponding files from `assets/project-template/locales/<language>
 
 Then install tool adapters:
 
-- Codex: if root `AGENTS.md` is absent, copy `assets/project-template/adapters/codex/AGENTS.md`. If it exists and lacks the marked Agent Relay block, append that block without changing existing text. If the block exists, leave it unchanged.
+- Codex: if root `AGENTS.md` is absent, copy `assets/project-template/adapters/codex/AGENTS.md`. If it has an `<!-- agent-relay:start -->` block, leave that block unchanged. If it has the legacy `<!-- project-role-workflow:start -->` block, replace only that complete marked block with the Agent Relay block, preserving all text outside the markers. Otherwise append the Agent Relay block without changing existing text. Never leave both marked blocks in one file.
 - Cursor: copy missing files from `assets/project-template/adapters/cursor/.cursor/` to root `.cursor/`. Preserve any existing same-path file and report it for manual comparison.
 
 For all other same-path collisions, preserve the target file. Fill only missing files and report differing files. Never replace `PROJECT_STATUS.md`, `role-bindings.md`, Profiles, task records, architecture constraints, or product instructions with template content.

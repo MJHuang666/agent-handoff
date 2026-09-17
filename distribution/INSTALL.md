@@ -1,6 +1,6 @@
 # Agent Relay Skill Pack
 
-版本：1.4.0
+版本：1.5.0
 
 这个安装包把多智能体协作所需的 Skill、共享状态模板、状态安全脚本和工具入口放在一起。安装后，Planner、Implementer、Reviewer 通过目标仓库中的 `docs/agent/` 交接；对话框只负责触发命令，不再承担唯一上下文。正式 ZIP 与 SHA-256 校验文件应作为 GitHub Release 附件发布，而不是提交到源码仓库。
 
